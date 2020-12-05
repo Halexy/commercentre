@@ -101,7 +101,7 @@ class PinsController extends AbstractController
             $this->em->remove($pin);
             $this->em->flush();
         }
-        
+
         return $this->redirectToRoute('app_home');
     }
 }
