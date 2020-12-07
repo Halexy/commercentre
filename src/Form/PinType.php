@@ -23,6 +23,7 @@ class PinType extends AbstractType
             'download_uri' => false,
             'image_uri' => true,
             'asset_helper' => true,
+            'imagine_pattern' => 'squared_thumbnail_small'
         ])
         ;
     }
