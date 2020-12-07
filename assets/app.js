@@ -7,9 +7,8 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './scss/app.scss';
-import './bootstrap';
 const $ = require('jquery');
-
+import './bootstrap';
 
 // Method for replacing the name of the input
 $('.custom-file-input').on('change', function(e) {
