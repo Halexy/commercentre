@@ -55,6 +55,11 @@ class Pin
      */
     private $imageName;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,5 +129,18 @@ class Pin
 
         return $this;
     }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
 
 }
