@@ -12,6 +12,8 @@ html, body {
     padding: 10px;
     color: white;
     text-align: center;
+    margin: 0 !important;
+    border-radius: 0 !important;
 
     &.alert-success {
         background-color: green;

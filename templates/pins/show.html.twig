@@ -19,9 +19,9 @@
                 <p>{{ pin.description }}</p>
                 <p class="pl-3 pb-3 font-weight-bold text-danger"> {{ pin.price }}€ </p>
 
-                <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">Edit </a>
+                <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">Modifier </a>
                 <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
-                    document.getElementById('js-pin-delete-form').submit();" class="btn btn-light">Delete
+                    document.getElementById('js-pin-delete-form').submit();" class="btn btn-light">Supprimer
                 </a>
             </div>
         </article>
