@@ -12,6 +12,7 @@ import './styles/app.css';
 import './scss/app.scss';
 const $ = require('jquery');
 import './bootstrap';
+require('bootstrap');
 
 // Method for replacing the name of the input
 $('.custom-file-input').on('change', function(e) {
