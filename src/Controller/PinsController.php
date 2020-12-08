@@ -51,7 +51,7 @@ class PinsController extends AbstractController
             $this->em->persist($pin);
             $this->em->flush();
 
-            $this->addFlash('success', 'Pin successfully created');
+            $this->addFlash('success', 'Article ajouté avec succès');
 
             return $this->redirectToRoute('app_home');
         }

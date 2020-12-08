@@ -23,7 +23,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> Custom env vars ###
-public/uploads
+/public/uploads/
 ###< end Custom env vars ###
 
 ###> liip/imagine-bundle ###
