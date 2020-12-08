@@ -18,11 +18,14 @@
                                 imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100"/>
                             </a>
                         </div>
-                        <h2 class="h5 pl-3 pt-3"><a href="{{ path('app_pins_show', {id: pin.id}) }}" 
-                            class="text-muted text-decoration-none text-secondary">{{ pin.title }}</a>
-                        </h2>
-                        <p class="pl-3">{{ pin.description|u.truncate(10, '...', false) }}</p>
-                        <p class="pl-3 pb-3 font-weight-bold text-danger"> {{ pin.price }}€ </p>
+                        <div class="pl-3 pb-3">
+                            <h2 class="h5 pl-3 pt-3"><a href="{{ path('app_pins_show', {id: pin.id}) }}" 
+                                class="text-muted text-decoration-none text-secondary">{{ pin.title }}</a>
+                            </h2>
+                            <p>{{ pin.description|u.truncate(10, '...', false) }}</p>
+                            <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
+                            <p class="font-weight-bold"> Vendu par {{ pin.user.firstName }}</p>
+                        </div>
                     </article>
                 </div>
                 {% endfor %}

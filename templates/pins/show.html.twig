@@ -17,7 +17,8 @@
                     class="text-muted text-decoration-none text-secondary">{{ pin.title }}</a>
                 </h1>
                 <p>{{ pin.description }}</p>
-                <p class="pl-3 pb-3 font-weight-bold text-danger"> {{ pin.price }}€ </p>
+                <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
+                <p class="pb-3 font-weight-bold"> Vendu par {{ pin.user.firstName }}</p>
 
                 <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">Modifier </a>
                 <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
