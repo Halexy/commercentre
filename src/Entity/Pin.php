@@ -28,14 +28,14 @@ class Pin
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Title can't be blank")
+     * @Assert\NotBlank(message="Le titre ne peut pas être vide")
      * @Assert\Length(min=3)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="La description ne peut pas être vide")
      * @Assert\Length(min=10, minMessage="Trop court")
      */
     private $description;
@@ -57,6 +57,7 @@ class Pin
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank(message="Le prix ne peut pas être vide")
      */
     private $price;
 

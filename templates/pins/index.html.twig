@@ -22,7 +22,7 @@
                             <h2 class="h5 pt-3"><a href="{{ path('app_pins_show', {id: pin.id}) }}" 
                                 class="text-muted text-decoration-none text-secondary">{{ pin.title }}</a>
                             </h2>
-                            <p class="text-break">{{ pin.description|u.truncate(10, '...', false) }}</p>
+                            <p class="text-break">{{ pin.description|u.truncate(20, '...', false) }}</p>
                             <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
                             <p class="font-weight-bold"> Vendu par {{ pin.user.firstName }}</p>
                         </div>

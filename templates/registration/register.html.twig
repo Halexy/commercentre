@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Enregistrement' %}
+
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger rounded mb-3" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="my-4 col-md-6 mx-auto">
+            <h1 class="text-center text-uppercase">Créer un compte</h1>
+
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.firstName) }}
+                {{ form_row(registrationForm.lastName) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.password) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+
+                <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">S'enregistrer</button>
+            {{ form_end(registrationForm) }}
+        <div>
+    </div>
+
+
+{% endblock %}
