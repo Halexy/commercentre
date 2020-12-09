@@ -107,7 +107,7 @@ class PinsController extends AbstractController
             $this->em->remove($pin);
             $this->em->flush();
 
-            $this->addFlash('info', 'Pin successfully deleted');
+            $this->addFlash('success', 'Article supprimé avec succès');
         }
 
         return $this->redirectToRoute('app_home');
