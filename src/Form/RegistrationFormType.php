@@ -31,17 +31,18 @@ class RegistrationFormType extends AbstractType
                 'label' => 'J\'accepte les conditions et les termes de confidentialité',
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les conditions',
                     ]),
                 ],
             ])
             ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'mapped' => false,
                 'label' => 'Mot de passe',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci d\'entrer le mot de passe',
+                        'message' => 'Le mot de passe ne peut pas être vide',
                     ]),
                     new Length([
                         'min' => 6,
