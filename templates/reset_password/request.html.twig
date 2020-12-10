@@ -6,13 +6,13 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
 
-            <h1 class ="mt-5 mb-3 text-center">Réinitialisez votre mot de passe</h1>
+            <h1 class ="mt-5 mb-2 text-center">Réinitialisez votre mot de passe</h1>
 
             {% for flashError in app.flashes('reset_password_error') %}
-                <div class="mb-3 alert alert-error rounded" role="alert">{{ flashError }}</div>
+                <div class="alert alert-error rounded" role="alert">{{ flashError }}</div>
             {% endfor %}
 
-            <p class="mb-5 text-center text-muted">
+            <p class="mb-5 mt-2 text-center text-muted">
                 Entrez votre adresse e-mail et nous vous enverrons un 
                 lien pour réinitialiser votre mot de passe.
             </p>

@@ -1,7 +1,7 @@
-<h1>Hi!</h1>
+<h1>Bonjour !</h1>
 
     <p>
-        To reset your password, please visit the following link
+        Pour réinitialiser votre mot de passe, veuillez visiter le lien suivant
     </p>
 
     <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">
@@ -9,7 +9,7 @@
     </a>
 
     <p>
-        This link will expire in {{ tokenLifetime|date('g') }} hour(s).
+        Ce lien expirera dans {{ tokenLifetime|date('g') }} heure(s).
     </p>
 
-    <p>Cheers!</p>
+    <p>Cordialement!</p>
