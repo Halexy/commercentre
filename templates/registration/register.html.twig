@@ -19,7 +19,18 @@
             </div>
 
                 {{ form_row(registrationForm.email) }}
+
+            <div class="row">
+                <div class="col-md-8">
+                {{ form_row(registrationForm.city) }}
+                </div>
+                <div class="col-md-4">
+                {{ form_row(registrationForm.zipCode) }}
+                </div>
+            </div>
+
                 {{ form_row(registrationForm.password) }}
+                {{ form_row(registrationForm.isMerchant) }}
                 {{ form_row(registrationForm.agreeTerms) }}
 
                 <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">S'enregistrer</button>

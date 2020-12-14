@@ -30,19 +30,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le prénom ne peut pas être vide")
+     * @Assert\NotBlank(message="Le champ de prénom ne peut pas être vide")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
+     * @Assert\NotBlank(message="Le champ de nom ne peut pas être vide")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank(message="L'email ne peut pas être vide")
+     * @Assert\NotBlank(message="Le champ d'email ne peut pas être vide")
      * @Assert\Email(message="Merci d'entrer une adresse email valide")
      */
     private $email;
@@ -67,6 +67,24 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isMerchant = false;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ de ville ne peut pas être vide")
+     */
+    private $city;
+
+    /**
+     * @Assert\Regex("/^[0-9]{5}$/")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ de code postal ne peut pas être vide")
+     */
+    private $zipCode;
 
     public function __construct()
     {
@@ -175,36 +193,6 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Pin[]
-     */
-    public function getPins(): Collection
-    {
-        return $this->pins;
-    }
-
-    public function addPin(Pin $pin): self
-    {
-        if (!$this->pins->contains($pin)) {
-            $this->pins[] = $pin;
-            $pin->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePin(Pin $pin): self
-    {
-        if ($this->pins->removeElement($pin)) {
-            // set the owning side to null (unless already changed)
-            if ($pin->getUser() === $this) {
-                $pin->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFullName(): string
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
@@ -223,6 +211,42 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getIsMerchant(): ?bool
+    {
+        return $this->isMerchant;
+    }
+
+    public function setIsMerchant(bool $isMerchant): self
+    {
+        $this->isMerchant = $isMerchant;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

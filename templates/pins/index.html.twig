@@ -24,7 +24,7 @@
                             </h2>
                             <p class="text-break">{{ pin.description|u.truncate(20, '...', false) }}</p>
                             <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
-                            <p class="font-weight-bold"> Vendu par {{ pin.user.firstName }}</p>
+                            <p class="font-weight-bold"> Vendu par {# {{ pin.user.firstName }} #} </p>
                         </div>
                         
                         <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
