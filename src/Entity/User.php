@@ -59,11 +59,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Pin::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $pins;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -85,6 +80,11 @@ class User implements UserInterface
      * @Assert\NotBlank(message="Le champ de code postal ne peut pas être vide")
      */
     private $zipCode;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Pin::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $pins;
 
     public function __construct()
     {
@@ -247,6 +247,36 @@ class User implements UserInterface
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pin[]
+     */
+    public function getPins(): Collection
+    {
+        return $this->pins;
+    }
+
+    public function addPin(Pin $pin): self
+    {
+        if (!$this->pins->contains($pin)) {
+            $this->pins[] = $pin;
+            $pin->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePin(Pin $pin): self
+    {
+        if ($this->pins->removeElement($pin)) {
+            // set the owning side to null (unless already changed)
+            if ($pin->getUser() === $this) {
+                $pin->setUser(null);
+            }
+        }
 
         return $this;
     }

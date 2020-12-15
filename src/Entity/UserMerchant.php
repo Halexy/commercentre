@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
 use App\Repository\UserMerchantRepository;
@@ -24,17 +26,20 @@ class UserMerchant
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ du nom d'entreprise ne peut pas être vide")
      */
     private $brandName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ de description ne peut pas être vide")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex("/^[0-9]{14}/")
+     * @Assert\NotBlank(message="Le champ de numéro de siret ne peut pas être vide")
      */
     private $siretNumber;
 
@@ -50,8 +55,19 @@ class UserMerchant
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ d'adresse ne peut pas être vide")
      */
     private $addessLine;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Pin::class, mappedBy="userMerchant", orphanRemoval=true)
+     */
+    private $pins;
+
+    public function __construct()
+    {
+        $this->pins = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,4 +145,6 @@ class UserMerchant
 
         return $this;
     }
+
+
 }
