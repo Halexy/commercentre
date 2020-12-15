@@ -24,7 +24,7 @@ class MerchantController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="app_merchant_create")
+     * @Route("/register", name="app_merchant_register")
      */
     public function create(Request $request, EntityManagerInterface $em): Response
     {

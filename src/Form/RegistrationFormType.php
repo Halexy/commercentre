@@ -37,11 +37,6 @@ class RegistrationFormType extends AbstractType
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
                 'help' => 'Exemple: 75000',
-                'constraints' => [
-                    new IsFalse([
-                        'message' => 'Vous devez accepter les conditions',
-                    ]),
-                ],
             ])
             ->add('isMerchant', CheckboxType::class, [
                 'label' => 'Cochez cette case si vous êtes commerçant',

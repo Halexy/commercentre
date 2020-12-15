@@ -31,6 +31,8 @@ class AccountController extends AbstractController
     {
         $user = $this->getUser();
 
+        // dd($user->getIsMerchant());
+
         $form = $this->createForm(UserFormType::class, $user);
 
         $form->handleRequest($request);
@@ -41,7 +43,7 @@ class AccountController extends AbstractController
 
            $this->addFlash('success', 'Les modifications ont bien été effectuées');
 
-           return$this->redirectToRoute('app_account');
+           return $this->redirectToRoute('app_account');
         }
 
         return $this->render('account/edit.html.twig', [

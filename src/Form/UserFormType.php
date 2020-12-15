@@ -21,6 +21,13 @@ class UserFormType extends AbstractType
                 'label' => 'Nom',
             ])
             ->add('email', EmailType::class)
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+            ])
+            ->add('zipCode', NumberType::class, [
+                'label' => 'Code postal',
+                'help' => 'Exemple: 75000',
+            ])
         ;
     }
 

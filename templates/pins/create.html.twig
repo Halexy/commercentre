@@ -6,9 +6,23 @@
     
     <div class="row">
         <div class="col-md-6 mx-auto">
-            <h1>Créer un produit</h1>
 
-            {{ include('pins/_form.html.twig', {'submitButtonText': 'Créer'}) }}
+
+            {% if app.user and app.user.isMerchant == 1 %}
+                <h1>Créer un produit</h1>
+                {{ include('pins/_form.html.twig', {'submitButtonText': 'Créer'}) }}
+            {% endif %}
+
+            {% if app.user and app.user.isMerchant == 0 %}
+            <div class="text-center m-5">
+                <h1 class="font-weight-bold">Vous ne pouvez pas créer de produit !</h1>
+                <p class="pt-3 lead">
+                    Si vous souhaitez ajouter des produits, il vous faut avant <a href="{{ path('app_merchant_register') }}">
+                    créer un compte commerçant</a> !
+                </p>
+            </div>
+            {% endif %}
+
         <div>
     </div>
 

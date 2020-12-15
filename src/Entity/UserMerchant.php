@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
-use App\Repository\UserMerchantRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -145,6 +144,5 @@ class UserMerchant
 
         return $this;
     }
-
 
 }
