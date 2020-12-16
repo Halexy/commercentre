@@ -7,6 +7,7 @@ use App\Form\PinType;
 use App\Repository\PinRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UserMerchantRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,22 +24,22 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pins/merchant", name="app_pins_merchant", methods="GET")
+     * @Route("/pins/merchant}", name="app_pins_merchant", methods="GET")
      */
-    public function index(PinRepository $pinRepository): Response
-    {
+    public function index(PinRepository $pinRepository, UserMerchantRepository $userMerchantRepository): Response
+    {        
+        $userMerchantsId = $_GET['id'];
 
-        $userMerchants = $_GET['id'];
         $pins = $pinRepository->findBy([], ['createdAt' => 'DESC']);
 
-        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchants'));
+        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchantsId'));
     }
 
 
     /**
      * @Route("/pins/create", name="app_pins_create", methods={"GET", "POST"})
      */
-    public function create(Request $request, UserRepository $userRepo): Response
+    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
     {
         $pin = new Pin;
 

@@ -22,11 +22,12 @@ class MerchantController extends AbstractController
     public function home(UserMerchantRepository $userMerchantRepository): Response
     {
         $userMerchants = $userMerchantRepository->findBy([], ['createdAt' => 'DESC']);
+
         return $this->render('user_merchant/index.html.twig', compact('userMerchants'));
     }
 
     /**
-     * @Route("merchant/register", name="app_merchant_register")
+     * @Route("merchant/register}", name="app_merchant_register")
      */
     public function create(Request $request, EntityManagerInterface $em): Response
     {

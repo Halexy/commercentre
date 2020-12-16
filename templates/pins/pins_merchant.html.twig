@@ -3,13 +3,13 @@
 {% block title %}Trouvez les commerces proche de chez vous !{% endblock %}
 
 {% block body %}
-
     {% if pins|length > 0 %}
         <h1 class="mb-4 text-center text-muted ">{{ pluralize(pins|length, 'Article') }}</h1>
 
         {% for row in pins|batch(3) %}
             <div class="row mb-5">
                 {% for pin in row %}
+                {% if pin.user.id == userMerchantsId %}
                 <div class="col-md-4">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
@@ -24,7 +24,7 @@
                             </h2>
                             <p class="text-break">{{ pin.description|u.truncate(20, '...', false) }}</p>
                             <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
-                            <p class="font-weight-bold"> Vendu par {# {{ pin.user.firstName }} #} </p>
+                            <p class="font-weight-bold"> Vendu par </p>
                         </div>
                         
                         <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
@@ -38,6 +38,7 @@
                         </form>
                     </article>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}

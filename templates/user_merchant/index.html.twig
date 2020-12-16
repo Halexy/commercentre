@@ -13,7 +13,7 @@
                 <div class="col-md-4">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
-                            <a href="{{ path('app_pins_merchant', {id: userMerchant.id}) }}">
+                            <a href="{{ path('app_pins_merchant', {id: userMerchant.user.id}) }}">
                                 <img src="{{ (userMerchant.logoName ? vich_uploader_asset(pin) : asset('images/no_image.jpg')) | 
                                 imagine_filter('squared_thumbnail_medium') }}" alt="{{ userMerchant.brandName }}" class="w-100"/>
                             </a>
