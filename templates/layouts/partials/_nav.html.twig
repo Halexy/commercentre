@@ -18,9 +18,9 @@
                 <li class="nav-item">
                     <a href="{{ path('app_merchant_register') }}" class="nav-link" >Créer compte commerçant</a>
                 </li>
-            {% endif %}
+            
         {# Just user connected merchant #}
-            {% if app.user and app.user.isMerchant == 1 %}
+            {% elseif app.user and app.user.isMerchant == 1 %}
                 <li class="nav-item">
                     <a href="{{ path('app_pins_create') }}" class="nav-link" >Ajouter un produit</a>
                 </li>

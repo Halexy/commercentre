@@ -31,8 +31,6 @@ class AccountController extends AbstractController
     {
         $user = $this->getUser();
 
-        // dd($user->getIsMerchant());
-
         $form = $this->createForm(UserFormType::class, $user);
 
         $form->handleRequest($request);

@@ -86,6 +86,11 @@ class User implements UserInterface
      */
     private $pins;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserMerchant::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userMerchant;
+
     public function __construct()
     {
         $this->pins = new ArrayCollection();
@@ -281,4 +286,20 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getUserMerchant(): ?UserMerchant
+    {
+        return $this->userMerchant;
+    }
+
+    public function setUserMerchant(UserMerchant $userMerchant): self
+    {
+        $this->userMerchant = $userMerchant;
+
+        // set the owning side of the relation if necessary
+        if ($userMerchant->getUser() !== $this) {
+            $userMerchant->setUser($this);
+        }
+
+        return $this;
+    }
 }

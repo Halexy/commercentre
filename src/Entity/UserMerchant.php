@@ -43,7 +43,7 @@ class UserMerchant
     private $siretNumber;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $logoName;
 
@@ -62,6 +62,12 @@ class UserMerchant
      * @ORM\OneToMany(targetEntity=Pin::class, mappedBy="userMerchant", orphanRemoval=true)
      */
     private $pins;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="userMerchant", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -141,6 +147,18 @@ class UserMerchant
     public function setAddessLine(string $addessLine): self
     {
         $this->addessLine = $addessLine;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
