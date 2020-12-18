@@ -24,15 +24,25 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pins/merchant}", name="app_pins_merchant", methods="GET")
+     * @Route("/pins/merchant", name="app_pins_merchant", methods="GET")
      */
     public function index(PinRepository $pinRepository, UserMerchantRepository $userMerchantRepository): Response
     {        
+
         $userMerchantsId = $_GET['id'];
 
         $pins = $pinRepository->findBy([], ['createdAt' => 'DESC']);
+        $UserMerchants = $userMerchantRepository->findAll();
+        
+        
 
-        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchantsId'));
+        foreach ($UserMerchants as $UserMerchant)
+        {
+            $brandName = $UserMerchant->getBrandName();
+        }
+
+        
+        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchantsId', 'brandName'));
     }
 
 
