@@ -38,9 +38,6 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Code postal',
                 'help' => 'Exemple: 75000',
             ])
-            ->add('isMerchant', CheckboxType::class, [
-                'label' => 'Cochez cette case si vous êtes commerçant',
-            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'J\'accepte les conditions et les termes de confidentialité',

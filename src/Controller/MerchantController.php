@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserMerchant;
 use App\Form\MerchantRegister;
-use App\Repository\UserMerchantRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UserMerchantRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,7 @@ class MerchantController extends AbstractController
     /**
      * @Route("merchant/register}", name="app_merchant_register")
      */
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
     {
         $userMerchant = new UserMerchant();
 
@@ -38,6 +39,7 @@ class MerchantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->setIsMerchant(true);
             $userMerchant->setUser($this->getUser());
             $em->persist($userMerchant);
             $em->flush();
@@ -48,7 +50,7 @@ class MerchantController extends AbstractController
         };
 
         return $this->render('user_merchant/merchant_register.html.twig', [
-            'formMerchant' => $form->createView()
+            'formMerchant' => $form->createView(),
         ]);
 
     }
