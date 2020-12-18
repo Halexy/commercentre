@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserMerchantRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @Vich\Uploadable
  */
 class UserMerchant
 {
@@ -43,9 +48,19 @@ class UserMerchant
     private $siretNumber;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="logo_image", fileNameProperty="imageName")
+     * @Assert\Image(maxSize="4M", maxSizeMessage="Image trop grande, taille maximale = 4MO")
+     * @Assert\NotNull(message="Merci d'ajouter une image")
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $logoName;
+    private $imageName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -115,16 +130,33 @@ class UserMerchant
         return $this;
     }
 
-    public function getLogoName(): ?string
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
     {
-        return $this->logoName;
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->setUpdatedAt(new \DateTimeImmutable);
+        }
     }
 
-    public function setLogoName(string $logoName): self
+    public function getImageFile(): ?File
     {
-        $this->logoName = $logoName;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 
     public function getCategory(): ?string

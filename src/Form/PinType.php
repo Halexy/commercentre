@@ -23,15 +23,14 @@ class PinType extends AbstractType
                 'label' => 'Prix'
             ])     
             ->add('imageFile', VichImageType::class, [
-            'label' => 'Image (Fichier JPG ou PNG)',
-            'required' => false,
-            'allow_delete' => true,
-            'delete_label' => 'Supprimer ?',
-            'download_uri' => false,
-            'image_uri' => true,
-            'asset_helper' => true,
-            'imagine_pattern' => 'squared_thumbnail_small'
-        ])
+                'label' => 'Image (Fichier JPG ou PNG)',
+                'required' => false,
+                'allow_delete' => true,
+                'download_uri' => false,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'imagine_pattern' => 'squared_thumbnail_small'
+            ])
         ;
     }
 

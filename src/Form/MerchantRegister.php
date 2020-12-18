@@ -2,14 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Pin;
 use App\Entity\UserMerchant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MerchantRegister extends AbstractType
@@ -33,6 +31,16 @@ class MerchantRegister extends AbstractType
                 'label' => 'Type d\'activité',
                 'help' => 'Exemple: Boulangerie',
             ])     
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Logo de votre entreprise',
+                'required' => false,
+                'allow_delete' => true,
+                'delete_label' => 'Supprimer ?',
+                'download_uri' => false,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'imagine_pattern' => 'squared_thumbnail_small'
+            ])
         ;
     }
 

@@ -45,7 +45,6 @@ class Pin
      * 
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
      * @Assert\Image(maxSize="4M", maxSizeMessage="Image trop grande, taille maximale = 4MO")
-     * @Assert\NotNull(message="Merci d'ajouter une image")
      * @var File|null
      */
     private $imageFile;
