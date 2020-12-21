@@ -31,7 +31,7 @@
                 {% endfor %}
             </div>
         {% endfor %}
-            {{ knp_pagination_render(userMerchantsPages) }}
+                {{ knp_pagination_render(userMerchantsPages) }}
 
     {% else %}
        <p class="h1 mt-5 text-center"> Aucun commerce ajouté pour le moment, <a href="{{ path('app_pins_create') }}">ajoutez en un !</a></p> 

@@ -83,6 +83,13 @@ class UserMerchant implements Serializable
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @Assert\Regex("/^[0-9]{5}$/")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ de code postal ne peut pas être vide")
+     */
+    private $zipCode;
     
 
     public function __construct()
@@ -202,6 +209,18 @@ class UserMerchant implements Serializable
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?int
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(int $zipCode): self
+    {
+        $this->zipCode = $zipCode;
 
         return $this;
     }
