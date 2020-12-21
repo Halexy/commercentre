@@ -8,6 +8,7 @@ use App\Form\MerchantRegister;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserMerchantRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,11 +21,17 @@ class MerchantController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function home(UserMerchantRepository $userMerchantRepository): Response
+    public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $userMerchants = $userMerchantRepository->findBy([], ['createdAt' => 'DESC']);
 
-        return $this->render('user_merchant/index.html.twig', compact('userMerchants'));
+        $userMerchantsPages = $paginator->paginate(
+            $userMerchants, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            9 // Nombre de résultats par page
+        );
+
+        return $this->render('user_merchant/index.html.twig', compact('userMerchants', 'userMerchantsPages'));
     }
 
     /**

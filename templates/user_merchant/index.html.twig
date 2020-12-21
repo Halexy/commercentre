@@ -7,31 +7,31 @@
     {% if userMerchants|length > 0 %}
         <h1 class="mb-4 text-center text-muted ">{{ pluralize(userMerchants|length, 'Commerce') }}</h1>
 
-        {% for row in userMerchants|batch(3) %}
+        {% for row in userMerchantsPages|batch(3) %}
             <div class="row mb-5">
-                {% for userMerchant in row %}
+                {% for userMerchantsPage in row %}
                 <div class="col-md-4">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
-                            <a href="{{ path('app_pins_merchant', {id: userMerchant.user.id}) }}">
-                                <img src="{{ (userMerchant.imageName ? vich_uploader_asset(userMerchant) : asset('build/images/no_image.9a55aa56.jpg')) | 
-                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ userMerchant.brandName }}" class="w-100"/>
+                            <a href="{{ path('app_pins_merchant', {id: userMerchantsPage.user.id}) }}">
+                                <img src="{{ (userMerchantsPage.imageName ? vich_uploader_asset(userMerchantsPage) : asset('build/images/no_image.9a55aa56.jpg')) | 
+                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ userMerchantsPage.brandName }}" class="w-100"/>
                             </a>
                         </div>
                         <div class="p-3">
-                            <a href="{{ path('app_pins_merchant', {id: userMerchant.user.id}) }}" 
+                            <a href="{{ path('app_pins_merchant', {id: userMerchantsPage.user.id}) }}" 
                                 class="text-muted text-decoration-none text-secondary">
-                                <h2 class="h5 pt-3">{{ userMerchant.brandName }}</h2>
+                                <h2 class="h5 pt-3">{{ userMerchantsPage.brandName }}</h2>
                             </a>
-                            <p class="text-break">{{ userMerchant.description|u.truncate(20, '...', false) }}</p>
-                            <p class="font-weight-bold"> {{ userMerchant.category }} </p>
+                            <p class="text-break">{{ userMerchantsPage.description|u.truncate(20, '...', false) }}</p>
+                            <p class="font-weight-bold"> {{ userMerchantsPage.category }} </p>
                         </div>
-
                     </article>
                 </div>
                 {% endfor %}
             </div>
         {% endfor %}
+            {{ knp_pagination_render(userMerchantsPages) }}
 
     {% else %}
        <p class="h1 mt-5 text-center"> Aucun commerce ajouté pour le moment, <a href="{{ path('app_pins_create') }}">ajoutez en un !</a></p> 
