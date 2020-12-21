@@ -28,10 +28,12 @@
                             <p class="font-weight-bold"> Vendu par {{ pin.user.userMerchant.brandName }}</p>
                         </div>
                         
+                    {% if pin.user.id == userId %}
                         <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
                             document.getElementById('js-pin-delete-form-{{ pin.id }}').submit();" 
                             class="m-3 btn btn-danger">&times; Supprimer
                         </a>
+                    {% endif %}
 
                         <form id="js-pin-delete-form-{{ pin.id }}" action="{{ path('app_pins_delete', {id: pin.id}) }}" method="post" style="display: none;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token('pin_deletion_' ~ pin.id) }}">

@@ -31,10 +31,11 @@ class PinsController extends AbstractController
 
         $userMerchantsId = $_GET['id'];
 
+        $userId = $this->getUser()->getId();
+
         $pins = $pinRepository->findBy([], ['createdAt' => 'DESC']);
+
         $UserMerchants = $userMerchantRepository->findAll();
-        
-        
 
         foreach ($UserMerchants as $UserMerchant)
         {
@@ -42,7 +43,7 @@ class PinsController extends AbstractController
         }
 
         
-        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchantsId', 'brandName'));
+        return $this->render('pins/pins_merchant.html.twig', compact('pins', 'userMerchantsId', 'userId', 'brandName'));
     }
 
 
@@ -79,7 +80,9 @@ class PinsController extends AbstractController
      */
     public function show(Pin $pin): Response
     {
-        return $this->render('pins/show.html.twig', compact('pin'));
+        $userId = $this->getUser()->getId();
+
+        return $this->render('pins/show.html.twig', compact('pin', 'userId'));
     }
 
     /**
@@ -90,10 +93,13 @@ class PinsController extends AbstractController
         $form = $this->createForm(PinType::class, $pin, [
             'method' => 'PUT'
         ]);
+
+        $pinUserId = $pin->getUser()->getId();
+        $userId = $this->getUser()->getId();
         
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() && $form->isValid() && $pinUserId == $userId)
         {
             $this->em->flush();
 
@@ -102,10 +108,17 @@ class PinsController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        if ($form->isSubmitted() && $form->isValid() && $pinUserId != $userId)
+        {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier un produit qui ne vous appartient pas');
+        }
+
         return $this->render('pins/edit.html.twig', [
             'pin' => $pin,
             'form' => $form->createView()
         ]);
+
+
     }
 
 
@@ -115,12 +128,20 @@ class PinsController extends AbstractController
     public function delete(Request $request, Pin $pin): Response
     {
 
-        if ($this->isCsrfTokenValid('pin_deletion_' . $pin->getId(), $request->request->get('csrf_token') ))
+        $pinUserId = $pin->getUser()->getId();
+        $userId = $this->getUser()->getId();
+
+        if ($this->isCsrfTokenValid('pin_deletion_' . $pin->getId(), $request->request->get('csrf_token') ) && $pinUserId == $userId)
         {
             $this->em->remove($pin);
             $this->em->flush();
 
             $this->addFlash('success', 'Article supprimé avec succès');
+        }
+
+        else 
+        {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier un produit qui ne vous appartient pas');
         }
 
         return $this->redirectToRoute('app_home');
