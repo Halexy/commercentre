@@ -28,7 +28,7 @@ class MerchantController extends AbstractController
     }
 
     /**
-     * @Route("merchant/register}", name="app_merchant_register")
+     * @Route("merchant/register", name="app_merchant_register")
      */
     public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
     {
@@ -53,5 +53,34 @@ class MerchantController extends AbstractController
             'formMerchant' => $form->createView(),
         ]);
 
+    }
+
+        /**
+     * @Route("merchant/account/edit", name="app_merchant_account_edit", methods={"GET", "PUT"})
+     */
+    public function edit(Request $request, EntityManagerInterface $em): Response
+    {
+
+        $userMerchant = $this->getUser()->getUserMerchant();
+
+        $form = $this->createForm(MerchantRegister::class, $userMerchant, [
+            'method' => 'PUT'
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+           $em->flush();
+
+           $this->addFlash('success', 'Les modifications ont bien été effectuées');
+
+           return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('user_merchant/edit.html.twig', [
+            'userMerchant' => $userMerchant,
+            'formMerchant' => $form->createView()
+        ]);
     }
 }

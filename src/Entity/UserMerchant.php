@@ -11,13 +11,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Serializable;
 
 /**
  * @ORM\Entity(repositoryClass=UserMerchantRepository::class)
  * @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
-class UserMerchant
+class UserMerchant implements Serializable
 {
     use Timestampable;
     
@@ -52,7 +53,6 @@ class UserMerchant
      * 
      * @Vich\UploadableField(mapping="logo_image", fileNameProperty="imageName")
      * @Assert\Image(maxSize="4M", maxSizeMessage="Image trop grande, taille maximale = 4MO")
-     * @Assert\NotNull(message="Merci d'ajouter une image")
      * @var File|null
      */
     private $imageFile;
@@ -83,10 +83,21 @@ class UserMerchant
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+    
 
     public function __construct()
     {
         $this->pins = new ArrayCollection();
+    }
+
+    public function serialize()
+    {
+        return serialize($this->getId());
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
     }
 
     public function getId(): ?int

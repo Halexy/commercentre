@@ -35,7 +35,6 @@ class MerchantRegister extends AbstractType
                 'label' => 'Logo de votre entreprise',
                 'required' => false,
                 'allow_delete' => true,
-                'delete_label' => 'Supprimer ?',
                 'download_uri' => false,
                 'image_uri' => true,
                 'asset_helper' => true,

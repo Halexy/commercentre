@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Editer profil' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h1 class="my-5 text-uppercase text-center">Editer profil commerçant</h1>
+
+            {{ form_start(formMerchant, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                {{ form_row(formMerchant.brandName) }}
+                {{ form_row(formMerchant.addessLine) }}
+                {{ form_row(formMerchant.siretNumber) }}
+                {{ form_row(formMerchant.description) }}
+                {{ form_row(formMerchant.imageFile) }}
+                {{ form_row(formMerchant.category) }}
+                
+
+                <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">Éditer votre profil</button>
+            {{ form_end(formMerchant) }}    
+
+        </div>
+    </div>
+
+{% endblock %}
