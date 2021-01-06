@@ -4,37 +4,48 @@
 
 {% block body %}
 
-    {% if userMerchants|length > 0 %}
-        <h1 class="mb-4 text-center text-muted ">{{ pluralize(userMerchants|length, 'Commerce') }}</h1>
+        <div class="col-6 mx-auto">
+            <h1 class="mt-3 text-center text-uppercase">Recherche avancée</h1>
+            <p class="mt-2 text-center">Entrer un code postal pour trouver les commerces proches !</p> 
+            {{ form_start(formMerchantZip, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_row(formMerchantZip.zipCode) }}
+                <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">Rechercher</button>
+            {{ form_end(formMerchantZip) }}
+        </div>
 
-        {% for row in userMerchantsPages|batch(3) %}
+    {% if app.request.method == 'POST' %}
+        
+    {% if merchants|length == 0 %}
+        <p class="h2 mt-5 text-center"> Aucun résultat pour votre recherche</p> 
+
+    {% else %}
+        <p class="h2 my-4 text-center text-muted ">Résultat de recherche :</p>
+        {% for row in merchants|batch(3) %}
             <div class="row mb-5">
-                {% for userMerchantsPage in row %}
+                {% for merchant in row %}
                 <div class="col-md-4">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
-                            <a href="{{ path('app_pins_merchant', {id: userMerchantsPage.user.id}) }}">
-                                <img src="{{ (userMerchantsPage.imageName ? vich_uploader_asset(userMerchantsPage) : asset('build/images/no_image.9a55aa56.jpg')) | 
-                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ userMerchantsPage.brandName }}" class="w-100"/>
+                            <a href="{{ path('app_pins_merchant', {id: merchant.user.id}) }}">
+                                <img src="{{ (merchant.imageName ? vich_uploader_asset(merchant) : asset('build/images/no_image.9a55aa56.jpg')) | 
+                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ merchant.brandName }}" class="w-100"/>
                             </a>
                         </div>
                         <div class="p-3">
-                            <a href="{{ path('app_pins_merchant', {id: userMerchantsPage.user.id}) }}" 
+                            <a href="{{ path('app_pins_merchant', {id: merchant.user.id}) }}" 
                                 class="text-muted text-decoration-none text-secondary">
-                                <h2 class="h5 pt-3">{{ userMerchantsPage.brandName }}</h2>
+                                <h2 class="h5 pt-3">{{ merchant.brandName }}</h2>
                             </a>
-                            <p class="text-break">{{ userMerchantsPage.description|u.truncate(20, '...', false) }}</p>
-                            <p class="font-weight-bold"> {{ userMerchantsPage.category }} </p>
+                            <p class="text-break">{{ merchant.description|u.truncate(20, '...', false) }}</p>
+                            <p class="font-weight-bold"> {{ merchant.category }} </p>
                         </div>
                     </article>
                 </div>
                 {% endfor %}
             </div>
         {% endfor %}
-                {{ knp_pagination_render(userMerchantsPages) }}
-
-    {% else %}
-       <p class="h1 mt-5 text-center"> Aucun commerce ajouté pour le moment, <a href="{{ path('app_pins_create') }}">ajoutez en un !</a></p> 
-    {% endif %}
+                 {% endif %}
+{{ knp_pagination_render(userMerchantsPages) }}
+   {% endif %}
 
 {% endblock %}

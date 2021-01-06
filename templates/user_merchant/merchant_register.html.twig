@@ -12,7 +12,15 @@
 
                 {{ form_row(formMerchant.brandName) }}
                 {{ form_row(formMerchant.addessLine) }}
-                {{ form_row(formMerchant.zipCode) }}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(formMerchant.zipCode) }}
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_row(formMerchant.city) }}
+                        <div style="display: none; color: #f55;" id="error-message"></div>
+                    </div>
+                </div>
                 {{ form_row(formMerchant.siretNumber) }}
                 {{ form_row(formMerchant.description) }}
                 {{ form_row(formMerchant.imageFile) }}

@@ -19,10 +19,10 @@ class UserMerchantRepository extends ServiceEntityRepository
         parent::__construct($registry, UserMerchant::class);
     }
 
-    public function search($UserMerchant) {
-        return $this->createQueryBuilder('UserMerchant')
-            ->andWhere('Article.zipCode LIKE :zipCode')
-            ->setParameter('zipCode', '%'.$UserMerchant.'%')
+    public function searchMerchant($criteria) {
+        return $this->createQueryBuilder('u')
+            ->where('u.zipCode = :zipCode')
+            ->setParameter('zipCode', $criteria['zipCode'])
             ->getQuery()
             ->execute();
     }

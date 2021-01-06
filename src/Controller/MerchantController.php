@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserMerchant;
 use App\Form\MerchantRegister;
+use App\Form\SearchMerchantZip;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserMerchantRepository;
@@ -31,7 +32,22 @@ class MerchantController extends AbstractController
             6 // Nombre de résultats par page
         );
 
-        return $this->render('user_merchant/index.html.twig', compact('userMerchants', 'userMerchantsPages'));
+        $searchMerchantZip = $this->createForm(SearchMerchantZip::class);
+        $merchant = [];
+
+        if($searchMerchantZip->handleRequest($request)->isSubmitted() && $searchMerchantZip->isValid()) {
+            $criteria = $searchMerchantZip->getData();
+            
+            $merchant = $userMerchantRepository->searchMerchant($criteria);
+
+        }
+
+        return $this->render('user_merchant/index.html.twig', [
+            'formMerchantZip' => $searchMerchantZip->createView(),
+            'userMerchants' => $userMerchants,
+            'userMerchantsPages' => $userMerchantsPages,
+            'merchants' => $merchant,
+        ]);
     }
 
     /**

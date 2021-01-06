@@ -90,6 +90,11 @@ class UserMerchant implements Serializable
      * @Assert\NotBlank(message="Le champ de code postal ne peut pas être vide")
      */
     private $zipCode;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
     
 
     public function __construct()
@@ -221,6 +226,18 @@ class UserMerchant implements Serializable
     public function setZipCode(int $zipCode): self
     {
         $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -6,8 +6,11 @@ use App\Entity\UserMerchant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -26,6 +29,19 @@ class MerchantRegister extends AbstractType
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
                 'help' => 'Exemple: 75000',
+                'attr' => [
+                    'class' => 'zipCode',
+                ],
+                new NotBlank([
+                    'message' => 'Merci d\'entrer un code postal',
+                ]),
+                new Regex('/^[0-9]{5}$/'),
+            ])
+            ->add('city', ChoiceType::class, [
+                'label' => 'Ville',
+                'attr' => [
+                    'class' => 'city',
+                ]
             ])
             ->add('description', TextareaType::class)      
             ->add('siretNumber', TextType::class, [
@@ -45,6 +61,8 @@ class MerchantRegister extends AbstractType
                 'asset_helper' => true,
                 'imagine_pattern' => 'squared_thumbnail_small'
             ])
+            // Novalidation for city input
+            ->get('city')->resetViewTransformers();
         ;
     }
 
