@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,13 +23,21 @@ class UserFormType extends AbstractType
                 'label' => 'Nom',
             ])
             ->add('email', EmailType::class)
-            ->add('city', TextType::class, [
+            ->add('city', ChoiceType::class, [
                 'label' => 'Ville',
+                'attr' => [
+                    'class' => 'city',
+                ]
             ])
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
                 'help' => 'Exemple: 75000',
+                'attr' => [
+                    'class' => 'zipCode',
+                ]
             ])
+            // Novalidation for city input
+            ->get('city')->resetViewTransformers();
         ;
     }
 

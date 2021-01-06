@@ -21,6 +21,9 @@ class AccountController extends AbstractController
      */
     public function show(): Response
     {
+
+        $userMerchant = $this->getUser()->getUserMerchant();
+
         return $this->render('account/show.html.twig');
     }
 

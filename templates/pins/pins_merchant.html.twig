@@ -4,47 +4,46 @@
 
 {% block body %}
 
-    {% if pins|length > 0 %}
+    {% if pinsOfMerchant|length > 0 %}
         <h1 class="mb-4 text-center text-muted ">Découvrez les produits proposés par votre commerçant</h1>
 
-        {% for row in pins|batch(3) %}
+        {% for row in pinsOfMerchant|batch(3) %}
             <div class="row mb-5">
-                {% for pin in row %}
-                {% if pin.user.id == userMerchantsId %}
+                {% for pinOfMerchant in pinsOfMerchant %}
                 <div class="col-md-4">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
-                            <a href="{{ path('app_pins_show', {id: pin.id}) }}">
-                                <img src="{{ (pin.imageName ? vich_uploader_asset(pin) : asset('build/images/no_image.9a55aa56.jpg')) | 
-                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100"/>
+                            <a href="{{ path('app_pins_show', {id: pinOfMerchant.id}) }}">
+                                <img src="{{ (pinOfMerchant.imageName ? vich_uploader_asset(pinOfMerchant) : asset('build/images/no_image.9a55aa56.jpg')) | 
+                                imagine_filter('squared_thumbnail_medium') }}" alt="{{ pinOfMerchant.title }}" class="w-100"/>
                             </a>
                         </div>
                         <div class="p-3">
-                            <h2 class="h5 pt-3"><a href="{{ path('app_pins_show', {id: pin.id}) }}" 
-                                class="text-muted text-decoration-none text-secondary">{{ pin.title }}</a>
+                            <h2 class="h5 pt-3"><a href="{{ path('app_pins_show', {id: pinOfMerchant.id}) }}" 
+                                class="text-muted text-decoration-none text-secondary">{{ pinOfMerchant.title }}</a>
                             </h2>
-                            <p class="text-break">{{ pin.description|u.truncate(20, '...', false) }}</p>
-                            <p class="mb-0 font-weight-bold text-danger"> {{ pin.price }}€ </p>
-                            <p class="font-weight-bold"> Vendu par {{ pin.user.userMerchant.brandName }}</p>
+                            <p class="text-break">{{ pinOfMerchant.description|u.truncate(20, '...', false) }}</p>
+                            <p class="mb-0 font-weight-bold text-danger"> {{ pinOfMerchant.price }}€ </p>
+                            {# <p class="font-weight-bold"> Vendu par {{ pin.user.userMerchant.brandName }}</p> #}
                         </div>
                         
-                    {% if pin.user.id == userId %}
+                    {% if pinOfMerchant.user.id == userId %}
                         <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
-                            document.getElementById('js-pin-delete-form-{{ pin.id }}').submit();" 
+                            document.getElementById('js-pin-delete-form-{{ pinOfMerchant.id }}').submit();" 
                             class="m-3 btn btn-danger">&times; Supprimer
                         </a>
                     {% endif %}
 
-                        <form id="js-pin-delete-form-{{ pin.id }}" action="{{ path('app_pins_delete', {id: pin.id}) }}" method="post" style="display: none;">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token('pin_deletion_' ~ pin.id) }}">
+                        <form id="js-pin-delete-form-{{ pinOfMerchant.id }}" action="{{ path('app_pins_delete', {id: pinOfMerchant.id}) }}" method="post" style="display: none;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token('pin_deletion_' ~ pinOfMerchant.id) }}">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>
                     </article>
                 </div>
-                {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}
+        {{ knp_pagination_render(pinsUserMerchantsPages) }}
 
     {% else %}
        <p class="h1 mt-5 text-center"> Aucun produit ajouté pour le moment, <a href="{{ path('app_pins_create') }}">ajoutez en un !</a></p> 

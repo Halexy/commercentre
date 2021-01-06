@@ -21,11 +21,12 @@
                 {{ form_row(registrationForm.email) }}
 
             <div class="row">
-                <div class="col-md-8">
-                {{ form_row(registrationForm.city) }}
-                </div>
                 <div class="col-md-4">
-                {{ form_row(registrationForm.zipCode) }}
+                     {{ form_row(registrationForm.zipCode) }}
+                </div>
+                <div class="col-md-8">
+                 {{ form_row(registrationForm.city) }}
+                    <div style="display: none; color: #f55;" id="error-message"></div>
                 </div>
             </div>
 

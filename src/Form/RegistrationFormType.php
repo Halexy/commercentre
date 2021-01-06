@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsFalse;
@@ -31,12 +32,18 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'help' => 'exemple@exemple.com',
             ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville',
+            ->add('city', ChoiceType::class, [
+                'label' => 'Ville',   
+                'attr' => [
+                    'class' => 'city',
+                ]
             ])
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
                 'help' => 'Exemple: 75000',
+                'attr' => [
+                    'class' => 'zipCode',
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -64,6 +71,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->get('city')->resetViewTransformers();
         ;
     }
 

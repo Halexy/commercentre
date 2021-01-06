@@ -11,12 +11,12 @@
         <ul class="navbar-nav  ml-auto">
         {# Any user #}
             <li class="nav-item">
-                <a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
+                <a href="{{ path('app_home') }}" class="nav-link"  id="target">Accueil</a>
             </li>
         {# Just user connected not merchant #}
             {% if app.user and app.user.isMerchant == 0 %}
                 <li class="nav-item">
-                    <a href="{{ path('app_merchant_register') }}" class="nav-link" >Créer compte commerçant</a>
+                    <a href="{{ path('app_merchant_register') }}" class="nav-link">Créer compte commerçant</a>
                 </li>
             
         {# Just user connected merchant #}

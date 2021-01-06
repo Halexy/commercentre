@@ -17,6 +17,15 @@
                         {{ form_row(form.lastName) }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.zipCode) }}
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_row(form.city) }}
+                        <div style="display: none; color: #f55;" id="error-message"></div>
+                    </div>
+                </div>
                 {{ form_rest(form) }}
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Editer profil</button>
             {{ form_end(form) }}
