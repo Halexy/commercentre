@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsFalse;
@@ -43,6 +44,12 @@ class RegistrationFormType extends AbstractType
                 'help' => 'Exemple: 75000',
                 'attr' => [
                     'class' => 'zipCode',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci d\'entrer un code postal',
+                    ]),
+                    new Regex('/^[0-9]{5}$/'),
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [

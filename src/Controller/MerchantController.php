@@ -25,28 +25,27 @@ class MerchantController extends AbstractController
     public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $userMerchants = $userMerchantRepository->findBy([], ['createdAt' => 'DESC']);
-
-        $userMerchantsPages = $paginator->paginate(
-            $userMerchants, // Requête contenant les données à paginer (ici nos articles)
-            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            6 // Nombre de résultats par page
-        );
-
         $searchMerchantZip = $this->createForm(SearchMerchantZip::class);
         $merchant = [];
 
         if($searchMerchantZip->handleRequest($request)->isSubmitted() && $searchMerchantZip->isValid()) {
             $criteria = $searchMerchantZip->getData();
-            
             $merchant = $userMerchantRepository->searchMerchant($criteria);
-
         }
+        
+        
+        $userMerchantsPages = $paginator->paginate(
+            $merchant, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6// Nombre de résultats par page
+        );
+
+        $resultMerchant = $userMerchantsPages->getItems();
 
         return $this->render('user_merchant/index.html.twig', [
             'formMerchantZip' => $searchMerchantZip->createView(),
-            'userMerchants' => $userMerchants,
+            'resultMerchants' => $resultMerchant,
             'userMerchantsPages' => $userMerchantsPages,
-            'merchants' => $merchant,
         ]);
     }
 

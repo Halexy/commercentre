@@ -95,6 +95,17 @@ class UserMerchant implements Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le champ du numéro de téléphone ne peut pas être vide")
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $additionalInformation;
     
 
     public function __construct()
@@ -238,6 +249,30 @@ class UserMerchant implements Serializable
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?int
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(int $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getAdditionalInformation(): ?string
+    {
+        return $this->additionalInformation;
+    }
+
+    public function setAdditionalInformation(?string $additionalInformation): self
+    {
+        $this->additionalInformation = $additionalInformation;
 
         return $this;
     }

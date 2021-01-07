@@ -3,6 +3,100 @@
 {% block title pin.title %}
 
 {% block body %}
+<!--Main layout-->
+  <main>
+    <div class="container">
+
+      <!--Section: Block Product-->
+      <section class="mb-5">
+        <d class="row">
+
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div id="mdb-lightbox-ui"></div>
+                    <div class="mdb-lightbox">
+                        <div class="row product-gallery mx-1">
+                            <div class="col-12">
+                                <figure class="view overlay rounded z-depth-1 main-img" style="max-height: 450px;">
+                                    <div class="mw-100 rounded-top overflow-hidden">
+                                        <img src="{{ (pin.imageName ? vich_uploader_asset(pin) : asset('images/no_image.jpg')) | 
+                                        imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100"/>
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+        <div class="col-md-6">
+            <h4 class="font-weight-bold">{{ pin.title }}</h4>
+            <p class="mb-2 text-muted text-uppercase small"> {{ pin.user.userMerchant.brandName }} </p>
+            <p><span class="mr-1"><strong>{{ pin.price }}€</strong></span></p>
+            <p class="pt-1">{{ pin.description }}</p>
+            {% if pin.user.id == userId %}
+                <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">
+                     Modifier 
+                </a>
+                <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
+                    document.getElementById('js-pin-delete-form').submit();" class="btn btn-light">Supprimer
+                </a>
+            {% endif %}
+        </div>
+            
+            <hr>
+      </section>
+      <!--Section: Block Product-->
+
+      <!--Section: Block Merchant-->
+    <section>
+        <h3 class="col-12 text-center text-uppercase">En savoir plus sur {{ pin.user.userMerchant.brandName }}</h3>
+            <div class="mt-4 ml-3 table-responsive">
+                <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Description</strong></th>
+                            <td>{{ pin.user.userMerchant.description }}</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Catégorie</strong></th>
+                            <td>{{ pin.user.userMerchant.category }}</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Adresse</strong></th>
+                            <td>{{ pin.user.userMerchant.addessLine }}, {{ pin.user.userMerchant.zipCode }} {{ pin.user.userMerchant.city }}</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Adresse email</strong></th>
+                            <td>{{ pin.user.email }}</td>
+                        </tr>
+                        {{ dump(pin.user)}}
+                    </tbody>
+                </table>
+            </div> 
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# 
 <div class="row">
     <div class="col-md-6 mx-auto">
         <article class="product bg-white rounded shadow">
@@ -21,7 +115,7 @@
                     {{ pin.price }}€ 
                 </p>
                 <p class="pb-3 font-weight-bold"> 
-                    Vendu par {# {{ pin.user.firstName }} #}
+                    Vendu par {# {{ pin.user.firstName }} 
                 </p>
                 {% if pin.user.id == userId %}
                     <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">
@@ -41,7 +135,7 @@
             <input type="hidden" name="_method" value="DELETE">
         </form>
     </div>
-</div>
+</div> #}
 
 
 

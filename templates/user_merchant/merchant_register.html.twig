@@ -21,8 +21,17 @@
                         <div style="display: none; color: #f55;" id="error-message"></div>
                     </div>
                 </div>
-                {{ form_row(formMerchant.siretNumber) }}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(formMerchant.phoneNumber) }}
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_row(formMerchant.siretNumber) }}
+                        <div style="display: none; color: #f55;" id="error-message"></div>
+                    </div>
+                </div>
                 {{ form_row(formMerchant.description) }}
+                {{ form_row(formMerchant.additionalInformation) }}
                 {{ form_row(formMerchant.imageFile) }}
                 {{ form_row(formMerchant.category) }}
                 

@@ -33,7 +33,15 @@ class PinsController extends AbstractController
 
         $pinsUserMerchants = $pinRepository->findBy(['user' => $userMerchantsId]);
         
-        $userId = $this->getUser()->getId();
+        if($this->getUser())
+        {
+            $userId = $this->getUser()->getId();
+        }
+        else
+        {
+            $userId = 0;
+        }
+        
 
         $pinsUserMerchantsPages = $paginator->paginate(
             $pinsUserMerchants, // Requête contenant les données à paginer (ici nos articles)
@@ -80,7 +88,14 @@ class PinsController extends AbstractController
      */
     public function show(Pin $pin): Response
     {
-        $userId = $this->getUser()->getId();
+        if($this->getUser())
+        {
+            $userId = $this->getUser()->getId();
+        }
+        else
+        {
+            $userId = 0;
+        }
 
         return $this->render('pins/show.html.twig', compact('pin', 'userId'));
     }
