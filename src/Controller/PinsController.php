@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Pin;
 use App\Form\PinType;
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Notification\ContactNotification;
 use App\Repository\PinRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,20 +87,36 @@ class PinsController extends AbstractController
 
 
     /**
-     * @Route("/pins/{id<[0-9]+>}", name="app_pins_show", methods="GET")
+     * @Route("/pins/{id<[0-9]+>}", name="app_pins_show")
      */
-    public function show(Pin $pin): Response
+    public function show(Pin $pin, Request $request, ContactNotification $contactNotification): Response
     {
         if($this->getUser())
         {
             $userId = $this->getUser()->getId();
-        }
-        else
+        } else
         {
             $userId = 0;
         }
 
-        return $this->render('pins/show.html.twig', compact('pin', 'userId'));
+        $contact = new Contact();
+
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $contactNotification->notify($contact);
+            $this->addFlash('success', 'envoyé avec succès');
+
+            // return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('pins/show.html.twig', [
+            'pin' => $pin,
+            'userId' => $userId,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

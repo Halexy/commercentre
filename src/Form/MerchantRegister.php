@@ -95,7 +95,7 @@ class MerchantRegister extends AbstractType
                 'help' => '14 chiffres sans espace',
             ])     
             ->add('category', ChoiceType::class, array(
-                'label' => 'Type d\'activité',
+                'label' => 'Secteur d\'activité',
                 'help' => 'Exemple: Boulangerie',
                 'choices'  => array_combine($array, $array),
             ))

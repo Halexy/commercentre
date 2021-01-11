@@ -4,12 +4,12 @@
 
 {% block body %}
 
-        <div class="col-6 mx-auto text-center">
+        <div class="col-9 mx-auto text-center">
             <a href="{{ path('app_home') }}">
                 <img src="{{ asset('build/images/logo_commercentre.44dd3a6b.png') }}" alt="Logo commercentre" class="w-25"/>
             </a>
-            <h1 class="mt-3 text-center text-uppercase">Recherche avancée</h1>
-            <p class="mt-2 text-center">Entrer un code postal pour trouver les commerces proches !</p> 
+            <h1 class="mt-3 text-uppercase">Recherche avancée</h1>
+            <p class="mt-2">Entrer un code postal pour trouver les commerces proches !</p> 
             {{ form_start(formMerchantZip, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_row(formMerchantZip.zipCode) }}
                 <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">Rechercher</button>

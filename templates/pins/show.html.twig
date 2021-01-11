@@ -9,68 +9,105 @@
 
       <!--Section: Block Product-->
       <section class="mb-5">
-        <d class="row">
-
+        <div class="row">
             <div class="col-md-6 mb-4 mb-md-0">
-                <div id="mdb-lightbox-ui"></div>
-                    <div class="mdb-lightbox">
-                        <div class="row product-gallery mx-1">
-                            <div class="col-12">
-                                <figure class="view overlay rounded z-depth-1 main-img" style="max-height: 450px;">
-                                    <div class="mw-100 rounded-top overflow-hidden">
-                                        <img src="{{ (pin.imageName ? vich_uploader_asset(pin) : asset('images/no_image.jpg')) | 
-                                        imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100"/>
-                                    </div>
-                                </figure>
-                            </div>
+                <div class="mdb-lightbox">
+                    <div class="row product-gallery mx-1">
+                        <div class="col-12">
+                            <figure class="view overlay rounded shadow z-depth-1 main-img" style="max-height: 450px;">
+                                <div class="mw-100 rounded-top overflow-hidden">
+                                    <img src="{{ (pin.imageName ? vich_uploader_asset(pin) : asset('images/no_image.jpg')) | 
+                                    imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100"/>
+                                </div>
+                            </figure>
                         </div>
                     </div>
+                </div>
             </div>
 
-        <div class="col-md-6">
-            <h4 class="font-weight-bold">{{ pin.title }}</h4>
-            <p class="mb-2 text-muted text-uppercase small"> {{ pin.user.userMerchant.brandName }} </p>
-            <p><span class="mr-1"><strong>{{ pin.price }}€</strong></span></p>
-            <p class="pt-1">{{ pin.description }}</p>
-            {% if pin.user.id == userId %}
-                <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">
-                     Modifier 
-                </a>
-                <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
-                    document.getElementById('js-pin-delete-form').submit();" class="btn btn-light">Supprimer
-                </a>
-            {% endif %}
+            <div class="col-md-6 my-auto p-3 rounded shadow bg-light text-center">
+                <h4 class="font-weight-bold">{{ pin.title }}</h4>
+                <p class="mb-2 text-muted text-uppercase small"> {{ pin.user.userMerchant.brandName }} </p>
+                <p><span class="mr-1"><strong>{{ pin.price }}€</strong></span></p>
+                <p class="pt-1">{{ pin.description }}</p>
+                {% if pin.user.id == userId %}
+                    <a href="{{ path('app_pins_edit', {id: pin.id}) }}" class="btn btn-light">
+                        Modifier 
+                    </a>
+                    <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
+                        document.getElementById('js-pin-delete-form').submit();" class="btn btn-light">Supprimer
+                    </a>
+                {% endif %}
+            </div>
         </div>
-            
-            <hr>
       </section>
       <!--Section: Block Product-->
+
+<hr class="my-5">
 
       <!--Section: Block Merchant-->
     <section>
         <h3 class="col-12 text-center text-uppercase">En savoir plus sur {{ pin.user.userMerchant.brandName }}</h3>
             <div class="mt-4 ml-3 table-responsive">
-                <table class="table table-sm table-borderless mb-0">
+                <table class="table table-striped table-sm table-borderless mb-0">
                     <tbody>
                         <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Description</strong></th>
+                            <th class="w-25" scope="row"><strong>Description</strong></th>
                             <td>{{ pin.user.userMerchant.description }}</td>
                         </tr>
                         <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Catégorie</strong></th>
+                            <th class="w-25" scope="row"><strong>Secteur d'activité</strong></th>
                             <td>{{ pin.user.userMerchant.category }}</td>
                         </tr>
                         <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Adresse</strong></th>
+                            <th class="w-25" scope="row"><strong>Adresse</strong></th>
                             <td>{{ pin.user.userMerchant.addessLine }}, {{ pin.user.userMerchant.zipCode }} {{ pin.user.userMerchant.city }}</td>
                         </tr>
                         <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Adresse email</strong></th>
+                            <th class="w-25" scope="row"><strong>Adresse email</strong></th>
                             <td>{{ pin.user.email }}</td>
                         </tr>
-                        {{ dump(pin.user)}}
+                        <tr>
+                            <th class="w-25" scope="row"><strong>Numéro de téléphone</strong></th>
+                            <td>+33{{ pin.user.userMerchant.phoneNumber }}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-25" scope="row"><strong>Informations supplémentaires</strong></th>
+                            <td>{{ pin.user.userMerchant.additionalInformation }}</td>
+                        </tr>
                     </tbody>
                 </table>
+            </div> 
+    </section>
+    <!--Section: Block Merchant-->
+
+    <hr class="my-5">
+
+      <!--Section: Form contact-->
+    <section class="col-8 mx-auto">
+        <h3 class="col-12 text-center text-uppercase">Contactez {{ pin.user.userMerchant.brandName }}</h3>
+            <div class="mt-4 ml-3">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.firstName) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.lastName) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.phoneNumber) }}
+                        </div>
+                    </div>
+                        {{ form_row(form.message) }}
+
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Envoyer</button>
+                {{ form_end(form) }}
             </div> 
     </section>
 
