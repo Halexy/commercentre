@@ -93,11 +93,13 @@ class UserMerchant implements Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ de la ville ne peut pas être vide")
      */
     private $city;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex("/^[0-9]{9}$/")
      * @Assert\NotBlank(message="Le champ du numéro de téléphone ne peut pas être vide")
      */
     private $phoneNumber;
@@ -241,24 +243,24 @@ class UserMerchant implements Serializable
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity()
     {
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity($city): self
     {
         $this->city = $city;
 
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber()
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phoneNumber): self
+    public function setPhoneNumber($phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 

@@ -6,13 +6,9 @@ use App\Entity\UserMerchant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MerchantRegister extends AbstractType
@@ -61,15 +57,9 @@ class MerchantRegister extends AbstractType
             ])
             ->add('zipCode', TextType::class, [
                 'label' => 'Code postal',
-                'help' => 'Exemple: 75000',
+                'help' => 'Exemple: 75016',
                 'attr' => [
                     'class' => 'zipCode',
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci d\'entrer un code postal',
-                    ]),
-                    new Regex('/^[0-9]{5}$/'),
                 ]
             ])
             ->add('city', ChoiceType::class, [
@@ -78,7 +68,7 @@ class MerchantRegister extends AbstractType
                     'class' => 'city',
                 ]
             ])
-            ->add('phoneNumber', TelType::class, [
+            ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',
                 'help' => 'Exemple : 6XXXXXXXX',
                 'attr' => [
@@ -108,7 +98,7 @@ class MerchantRegister extends AbstractType
                 'asset_helper' => true,
                 'imagine_pattern' => 'squared_thumbnail_small'
             ])
-            // Novalidation for city input
+            // // Novalidation for city input
             ->get('city')->resetViewTransformers();
         ;
     }

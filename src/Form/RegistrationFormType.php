@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsFalse;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,6 +36,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('city', ChoiceType::class, [
                 'label' => 'Ville',   
+                'empty_data' => '',
                 'attr' => [
                     'class' => 'city',
                 ]
@@ -44,12 +46,6 @@ class RegistrationFormType extends AbstractType
                 'help' => 'Exemple: 75000',
                 'attr' => [
                     'class' => 'zipCode',
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci d\'entrer un code postal',
-                    ]),
-                    new Regex('/^[0-9]{5}$/'),
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [

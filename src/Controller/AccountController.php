@@ -45,7 +45,7 @@ class AccountController extends AbstractController
            $this->addFlash('success', 'Les modifications ont bien été effectuées');
 
            return $this->redirectToRoute('app_account');
-        }
+        } 
 
         return $this->render('account/edit.html.twig', [
             'form' => $form->createView()

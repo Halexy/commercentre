@@ -13,35 +13,40 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class MerchantController extends AbstractController
 {
+    
 
     /**
      * @Route("/", name="app_home")
      */
-    public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator): Response
-    {
-        $userMerchants = $userMerchantRepository->findBy([], ['createdAt' => 'DESC']);
+    public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator, SessionInterface $session): Response
+    {        
         $searchMerchantZip = $this->createForm(SearchMerchantZip::class);
-        $merchant = [];
+        $session->get('merchantByZip', []);
 
+        // Champs de recherche par code postal valide
         if($searchMerchantZip->handleRequest($request)->isSubmitted() && $searchMerchantZip->isValid()) {
             $criteria = $searchMerchantZip->getData();
             $merchant = $userMerchantRepository->searchMerchant($criteria);
+            $session->set('merchantByZip', $merchant);
         }
-        
-        
-        $userMerchantsPages = $paginator->paginate(
-            $merchant, // Requête contenant les données à paginer (ici nos articles)
+           
+            $merchantByZip = $session->get('merchantByZip', []);
+
+            $userMerchantsPages = $paginator->paginate(
+            $merchantByZip, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             3// Nombre de résultats par page
-        );
+            );
 
-        $resultMerchant = $userMerchantsPages->getItems();
-
+            $resultMerchant = $userMerchantsPages->getItems();
+            
         return $this->render('user_merchant/index.html.twig', [
             'formMerchantZip' => $searchMerchantZip->createView(),
             'resultMerchants' => $resultMerchant,

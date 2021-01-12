@@ -244,12 +244,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity()
     {
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity($city): self
     {
         $this->city = $city;
 

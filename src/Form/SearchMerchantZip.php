@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -22,13 +24,13 @@ class SearchMerchantZip extends AbstractType
                 ]),
                 new Regex('/^[0-9]{5}$/'),
             ],
-            'label' => 'Code postal',
-            'help' => 'Exemple: 75000',
             'attr' => [
                 'class' => 'zipCode',
-            ]
-            ])
-            ;
+            ],
+            'label' => 'Code postal',
+            'help' => 'Exemple: 75000',
+            
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

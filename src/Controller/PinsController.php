@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PinsController extends AbstractController
 {
@@ -30,7 +31,8 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/merchant", name="app_pins_merchant", methods="GET")
      */
-    public function index(PinRepository $pinRepository, UserMerchantRepository $userMerchantRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(PinRepository $pinRepository, UserMerchantRepository $userMerchantRepository, PaginatorInterface $paginator,
+     Request $request, SessionInterface $session): Response
     {        
         $userMerchantsId = $_GET['id'];
 
@@ -44,12 +46,11 @@ class PinsController extends AbstractController
         {
             $userId = 0;
         }
-        
 
         $pinsUserMerchantsPages = $paginator->paginate(
             $pinsUserMerchants, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            6 // Nombre de résultats par page
+            2 // Nombre de résultats par page
         );
 
         $pinsOfMerchant = $pinsUserMerchantsPages->getItems();
