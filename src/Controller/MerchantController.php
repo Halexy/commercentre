@@ -25,27 +25,32 @@ class MerchantController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator, SessionInterface $session): Response
+    public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator, Session $session): Response
     {        
         $searchMerchantZip = $this->createForm(SearchMerchantZip::class);
-        $session->get('merchantByZip', []);
 
-        // Champs de recherche par code postal valide
-        if($searchMerchantZip->handleRequest($request)->isSubmitted() && $searchMerchantZip->isValid()) {
+        $searchMerchantZip->handleRequest($request);
+
+        if($searchMerchantZip->isSubmitted() && $searchMerchantZip->isValid()) {
             $criteria = $searchMerchantZip->getData();
-            $merchant = $userMerchantRepository->searchMerchant($criteria);
-            $session->set('merchantByZip', $merchant);
+            $session->set('zipCode', $criteria['zipCode']);
         }
-           
-            $merchantByZip = $session->get('merchantByZip', []);
+        
+        if ($session->has('zipCode')) {
+            $criteria = $session->get('zipCode');
+            $merchant = $userMerchantRepository->searchMerchant($criteria);
+        } else {
+            $merchant = [];
+        }
 
-            $userMerchantsPages = $paginator->paginate(
-            $merchantByZip, // Requête contenant les données à paginer (ici nos articles)
-            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            3// Nombre de résultats par page
-            );
 
-            $resultMerchant = $userMerchantsPages->getItems();
+        $userMerchantsPages = $paginator->paginate(
+        $merchant, // Requête contenant les données à paginer (ici nos articles)
+        $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+        3// Nombre de résultats par page
+        );
+
+        $resultMerchant = $userMerchantsPages->getItems();
             
         return $this->render('user_merchant/index.html.twig', [
             'formMerchantZip' => $searchMerchantZip->createView(),
@@ -89,6 +94,9 @@ class MerchantController extends AbstractController
     {
 
         $userMerchant = $this->getUser()->getUserMerchant();
+        $userIsMerchant = $this->getUser()->getIsMerchant();
+
+        if($userIsMerchant == true) {
 
         $form = $this->createForm(MerchantRegister::class, $userMerchant, [
             'method' => 'PUT'
@@ -96,13 +104,19 @@ class MerchantController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-           $em->flush();
+            if($form->isSubmitted() && $form->isValid())
+            {
+            $em->flush();
 
-           $this->addFlash('success', 'Les modifications ont bien été effectuées');
+            $this->addFlash('success', 'Les modifications ont bien été effectuées');
 
-           return $this->redirectToRoute('app_account');
+            return $this->redirectToRoute('app_account');
+            }
+
+        } else {
+            $this->addFlash('error', 'Vous n\'avez pas de compte commerçant à modifier');
+
+            return $this->redirectToRoute('app_account');
         }
 
         return $this->render('user_merchant/edit.html.twig', [

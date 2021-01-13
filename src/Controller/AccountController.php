@@ -32,20 +32,29 @@ class AccountController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
+
         $user = $this->getUser();
 
-        $form = $this->createForm(UserFormType::class, $user);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
+        if ($user == null)
         {
-           $em->flush();
+            $this->addFlash('error', 'Connectez vous pour modifier votre compte');
 
-           $this->addFlash('success', 'Les modifications ont bien été effectuées');
+            return $this->redirectToRoute('app_home');
+        } else {
 
-           return $this->redirectToRoute('app_account');
-        } 
+            $form = $this->createForm(UserFormType::class, $user);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid())
+            {
+            $em->flush();
+
+            $this->addFlash('success', 'Les modifications ont bien été effectuées');
+
+            return $this->redirectToRoute('app_account');
+            } 
+        }
 
         return $this->render('account/edit.html.twig', [
             'form' => $form->createView()

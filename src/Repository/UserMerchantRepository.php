@@ -22,7 +22,7 @@ class UserMerchantRepository extends ServiceEntityRepository
     public function searchMerchant($criteria) {
         return $this->createQueryBuilder('u')
             ->where('u.zipCode = :zipCode')
-            ->setParameter('zipCode', $criteria['zipCode'])
+            ->setParameter('zipCode', $criteria)
             ->getQuery()
             ->execute();
     }
