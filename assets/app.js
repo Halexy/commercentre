@@ -26,7 +26,7 @@ const apiUrl = 'https://geo.api.gouv.fr/communes?codePostal=';
 const format = '&format=json';
 
 let zipcode = $('.zipCode'); let city = $('.city'); let errorMessage = $('#error-message'); 
-
+// method to retrieve French city and zipCode
     $(zipcode).on('blur', function(){
         let code = $(this).val();
         //console.log(code);

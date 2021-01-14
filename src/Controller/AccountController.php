@@ -21,7 +21,6 @@ class AccountController extends AbstractController
      */
     public function show(): Response
     {
-
         $userMerchant = $this->getUser()->getUserMerchant();
 
         return $this->render('account/show.html.twig');
@@ -40,20 +39,21 @@ class AccountController extends AbstractController
             $this->addFlash('error', 'Connectez vous pour modifier votre compte');
 
             return $this->redirectToRoute('app_home');
+            
         } else {
 
             $form = $this->createForm(UserFormType::class, $user);
 
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid())
-            {
-            $em->flush();
+                if($form->isSubmitted() && $form->isValid())
+                {
+                    $em->flush();
 
-            $this->addFlash('success', 'Les modifications ont bien été effectuées');
+                    $this->addFlash('success', 'Les modifications ont bien été effectuées');
 
-            return $this->redirectToRoute('app_account');
-            } 
+                    return $this->redirectToRoute('app_account');
+                } 
         }
 
         return $this->render('account/edit.html.twig', [

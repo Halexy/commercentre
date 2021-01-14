@@ -3,14 +3,13 @@
 {% block title %}Retrouvez les articles de votre boutique !{% endblock %}
 
 {% block body %}
-
     {% if pinsOfMerchant|length > 0 %}
         <h1 class="mb-4 text-center text-muted ">Découvrez les produits proposés par votre commerçant</h1>
-
+        <!--Section: Product-->
         {% for row in pinsOfMerchant|batch(3) %}
             <div class="row mb-5">
                 {% for pinOfMerchant in pinsOfMerchant %}
-                <div class="col-md-4">
+                <div class="col-md-4 my-2">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
                             <a href="{{ path('app_pins_show', {id: pinOfMerchant.id}) }}">
@@ -29,15 +28,16 @@
                         
                     {% if pinOfMerchant.user.id == userId %}
                         <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sur ?') &&
-                            document.getElementById('js-pin-delete-form-{{ pinOfMerchant.id }}').submit();" 
+                            document.querySelector('#js-pin-delete-form-{{ pinOfMerchant.id }}').submit();" 
                             class="m-3 btn btn-danger">&times; Supprimer
                         </a>
-                    {% endif %}
+                    
 
                         <form id="js-pin-delete-form-{{ pinOfMerchant.id }}" action="{{ path('app_pins_delete', {id: pinOfMerchant.id}) }}" method="post" style="display: none;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token('pin_deletion_' ~ pinOfMerchant.id) }}">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>
+                    {% endif %}
                     </article>
                 </div>
                 {% endfor %}
@@ -46,7 +46,37 @@
         {{ knp_pagination_render(pinsUserMerchantsPages) }}
 
     {% else %}
-       <p class="h1 mt-5 text-center"> Aucun produit ajouté pour le moment, <a href="{{ path('app_pins_create') }}">ajoutez en un !</a></p> 
+       <p class="h1 mt-5 text-center"> Aucun produit ajouté pour le moment !</p> 
     {% endif %}
+
+        <hr class="my-5">
+
+      <!--Section: Form contact-->
+    <section class="col-8 mx-auto">
+        <h3 class="col-12 text-center text-uppercase">Contactez votre commerçant</h3>
+            <div class="mt-4 ml-3">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} )}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.firstName) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.lastName) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.phoneNumber) }}
+                        </div>
+                    </div>
+                        {{ form_row(form.message) }}
+
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Envoyer</button>
+                {{ form_end(form) }}
+            </div> 
+    </section>
 
 {% endblock %}

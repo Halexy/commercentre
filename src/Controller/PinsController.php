@@ -8,15 +8,12 @@ use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
 use App\Repository\PinRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UserMerchantRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PinsController extends AbstractController
 {
@@ -29,40 +26,64 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pins/merchant", name="app_pins_merchant", methods="GET")
+     * @Route("/pins/merchant", name="app_pins_merchant", methods={"GET", "POST"})
      */
-    public function index(PinRepository $pinRepository, UserMerchantRepository $userMerchantRepository, PaginatorInterface $paginator,
-     Request $request, SessionInterface $session): Response
+    public function index(PinRepository $pinRepository, PaginatorInterface $paginator,
+     Request $request, ContactNotification $contactNotification): Response
     {        
         $userMerchantsId = $_GET['id'];
 
         $pinsUserMerchants = $pinRepository->findBy(['user' => $userMerchantsId]);
-        
-        if($this->getUser())
-        {
-            $userId = $this->getUser()->getId();
-        }
-        else
-        {
-            $userId = 0;
-        }
+
+        $contact = new Contact();
+
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $contactNotification->notify($contact);
+
+                $this->addFlash('success', 'Envoyé avec succès');
+
+                return $this->redirectToRoute('app_home');
+            }
+                elseif($form->isSubmitted())
+                {
+                    $this->addFlash('error', 'Erreur dans le formulaire');
+                }
+                
+            if($this->getUser())
+            {
+                $userId = $this->getUser()->getId();
+            }
+                else
+                {
+                    $userId = 0;
+                }
 
         $pinsUserMerchantsPages = $paginator->paginate(
             $pinsUserMerchants, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            2 // Nombre de résultats par page
+            9 // Nombre de résultats par page
         );
 
         $pinsOfMerchant = $pinsUserMerchantsPages->getItems();
         
-        return $this->render('pins/pins_merchant.html.twig', compact('userMerchantsId', 'userId', 'pinsUserMerchantsPages', 'pinsOfMerchant'));
+        return $this->render('pins/pins_merchant.html.twig', [
+            'form' => $form->createView(),
+            'userMerchantsId' => $userMerchantsId,
+            'userId' => $userId,
+            'pinsUserMerchantsPages' => $pinsUserMerchantsPages,
+            'pinsOfMerchant' => $pinsOfMerchant,
+        ]);
     }
 
 
     /**
      * @Route("/pins/create", name="app_pins_create", methods={"GET", "POST"})
      */
-    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
+    public function create(Request $request): Response
     {
         $pin = new Pin;
 
@@ -95,7 +116,8 @@ class PinsController extends AbstractController
         if($this->getUser())
         {
             $userId = $this->getUser()->getId();
-        } else
+        } 
+        else
         {
             $userId = 0;
         }
@@ -108,9 +130,14 @@ class PinsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $contactNotification->notify($contact);
-            $this->addFlash('success', 'envoyé avec succès');
 
-            // return $this->redirectToRoute('app_home');
+            $this->addFlash('success', 'Envoyé avec succès');
+
+            return $this->redirectToRoute('app_home');
+        }
+        elseif($form->isSubmitted())
+        {
+            $this->addFlash('error', 'Erreur dans le formulaire');
         }
 
         return $this->render('pins/show.html.twig', [
@@ -138,7 +165,7 @@ class PinsController extends AbstractController
         {
             $this->em->flush();
 
-            $this->addFlash('success', 'Pin successfully updated');
+            $this->addFlash('success', 'Article modifié avec succès');
 
             return $this->redirectToRoute('app_home');
         }
@@ -156,9 +183,8 @@ class PinsController extends AbstractController
 
     }
 
-
     /**
-     * @Route("/pins/{id<[0-9]+>}", name="app_pins_delete", methods={"DELETE"})
+     * @Route("/pins/delete/{id<[0-9]+>}", name="app_pins_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Pin $pin): Response
     {

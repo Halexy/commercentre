@@ -33,7 +33,13 @@ security:
                 lifetime: 604800 # 1 week in seconds
     access_control:
         # matches /admin/users/*
+        - { path: '^/account', roles: ROLE_USER }
         - { path: '^/pins/create', roles: ROLE_USER }
+        - { path: '^/pins/\d+/edit', roles: ROLE_USER }
+        - { path: '^/merchant/register', roles: ROLE_USER }
+        
+
+        
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

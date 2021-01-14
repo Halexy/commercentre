@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\UserMerchant;
-use App\Form\MerchantRegister;
-use App\Form\SearchMerchantZip;
+use App\Form\MerchantRegisterType;
+use App\Form\SearchMerchantZipType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserMerchantRepository;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -27,7 +25,7 @@ class MerchantController extends AbstractController
      */
     public function home(UserMerchantRepository $userMerchantRepository, Request $request, PaginatorInterface $paginator, Session $session): Response
     {        
-        $searchMerchantZip = $this->createForm(SearchMerchantZip::class);
+        $searchMerchantZip = $this->createForm(SearchMerchantZipType::class);
 
         $searchMerchantZip->handleRequest($request);
 
@@ -47,7 +45,7 @@ class MerchantController extends AbstractController
         $userMerchantsPages = $paginator->paginate(
         $merchant, // Requête contenant les données à paginer (ici nos articles)
         $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-        3// Nombre de résultats par page
+        9// Nombre de résultats par page
         );
 
         $resultMerchant = $userMerchantsPages->getItems();
@@ -66,25 +64,30 @@ class MerchantController extends AbstractController
     {
         $userMerchant = new UserMerchant();
 
-        $form = $this->createForm(MerchantRegister::class, $userMerchant);
+            $form = $this->createForm(MerchantRegisterType::class, $userMerchant);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUser()->setIsMerchant(true);
-            $userMerchant->setUser($this->getUser());
-            $em->persist($userMerchant);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getUser()->setIsMerchant(true);
+                $userMerchant->setUser($this->getUser());
+                $em->persist($userMerchant);
+                $em->flush();
 
-            $this->addFlash('success', 'Votre compte commerçant a bien été créé.');
+                $this->addFlash('success', 'Votre compte commerçant a bien été créé.');
 
-            return $this->redirectToRoute('app_home');
-        };
+                return $this->redirectToRoute('app_home');
+            };
 
-        return $this->render('user_merchant/merchant_register.html.twig', [
-            'formMerchant' => $form->createView(),
-        ]);
+            return $this->render('user_merchant/merchant_register.html.twig', [
+                'formMerchant' => $form->createView(),
+            ]);
 
+            // else {
+            //     $this->addFlash('error', 'Vous devez vous créer un compte avant d\'accéder au);
+
+            //     return $this->redirectToRoute('app_home');
+            // }
     }
 
         /**

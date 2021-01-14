@@ -26,6 +26,10 @@ class ContactType extends AbstractType
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Numéro de téléphone',
+                'help' => 'Exemple : 6XXXXXXXX',
+                'attr' => [
+                    'placeholder' => '+33',
+                ]
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message',

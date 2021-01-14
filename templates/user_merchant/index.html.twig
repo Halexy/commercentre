@@ -5,16 +5,20 @@
 {% block body %}
 
     <div class="col-9 mx-auto text-center">
+
         <a href="{{ path('app_home') }}">
             <img src="{{ asset('build/images/logo_commercentre.44dd3a6b.png') }}" alt="Logo commercentre" class="w-25"/>
         </a>
-        <h1 class="my-3 text-uppercase">Recherchez et tourvez</h1>
-        <p class="h4 mb-2">Les commerces proches !</p> 
+
+        <h1 class="mt-3 text-uppercase text-center">Recherchez et trouvez</h1>
+        <h4 class="mb-5">Les commerces proches !</h4> 
+
         {{ form_start(formMerchantZip, {'attr': {'novalidate': 'novalidate'}}) }}
             {{ form_row(formMerchantZip.zipCode) }}
             <div style="display: none; color: #f55;" id="error-message"></div>
             <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">Rechercher</button>
         {{ form_end(formMerchantZip) }}
+
     </div>
         
     {% if resultMerchants|length == 0 %}
@@ -25,7 +29,7 @@
             <div class="row mb-5">
                 {% for resultMerchant in resultMerchants %}
                 
-                <div class="col-md-4">
+                <div class="col-md-4 my-2">
                     <article class="product bg-white rounded shadow">
                         <div class="mw-100  rounded-top overflow-hidden">
                             <a href="{{ path('app_pins_merchant', {id: resultMerchant.user.id}) }}">
@@ -40,6 +44,7 @@
                             </a>
                             <p class="text-break">{{ resultMerchant.description|u.truncate(20, '...', false) }}</p>
                             <p class="font-weight-bold"> {{ resultMerchant.category }} </p>
+                            <p class="font-weight-bold"> {{ resultMerchant.city }}, {{ resultMerchant.zipCode }}</p>
                         </div>
                     </article>
                 </div>

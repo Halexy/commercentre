@@ -11,41 +11,28 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class MerchantRegister extends AbstractType
+class MerchantRegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $array = array(
-            "Commerce de véhicules automobiles", 
-            "Entretien et réparation de véhicules automobiles", 
-            "Commerce d'équipements automobiles",
-            "Commerce et réparation de motocycles",
-            "Commerce de détail en magasin non spécialisé",
-            "Commerce de détail alimentaire en magasin spécialisé",
-            "Commerce de détail de carburants en magasin spécialisé",
-            "Commerce de détail d'équipements de l'information et de la communication en magasin spécialisé",
-            "Commerce de détail d'autres équipements du foyer en magasin spécialisé",
-            "Commerce de détail de biens culturels et de loisirs en magasin spécialisé",
-            "Autres commerces de détail en magasin spécialisé",
-            "Commerce de détail sur éventaires et marchés",
-            "Hôtels et hébergement similaire",
-            "Hébergement touristique et autre hébergement de courte durée ",
-            "Restaurants et services de restauration mobile",
-            "Traiteurs et autres services de restauration",
-            "Débits de boissons",
-            "Programmation, conseil et autres activités informatiques ",
-            "Assurance",
-            "Activités des marchands de biens immobiliers",
-            "Publicité",
-            "Activités photographiques",
-            "Activités vétérinaires",
-            "Activités des agences de voyage et voyagistes",
-            "Activités de nettoyage",
-            "Activités créatives, artistiques et de spectacle",
-            "Bibliothèques, archives, musées et autres activités culturelles",
-            "Réparation d'ordinateurs et d'équipements de communication",
-            "Réparation de biens personnels et domestiques",
-            "Autres services personnels"
+            "commerce de détail",
+            "agroalimentaire", 
+            "restauration rapide",
+            "loisirs, tourisme, culture",
+            "informatique, internet",
+            "services aux entreprises",
+            "habitation",
+            "textile, habillement",
+            "horlogerie, bijouterie",
+            "formation - administrations",
+            "energie, environnement",
+            "construction, bâtiment, bois",
+            "matériel électrique, électronique, optique",
+            "métallurgie, mécanique",
+            "chimie, plastique, santé", 
+            "papier, impression",
+            "transports et logistique",
         );
         $builder
             ->add('brandName', TextType::class, [
