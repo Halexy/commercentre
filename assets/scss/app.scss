@@ -4,6 +4,10 @@
 
 @import "~bootstrap";
 
+html {
+    scroll-behavior: smooth;
+}
+  
 html, body {
     font-family: $primary-font, sans-serif;
 }
@@ -41,6 +45,20 @@ html, body {
     transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.15);
+    }
+}
+
+label.required:before {
+    content: "* ";
+    color: red;
+    }
+.asterisk {
+    color: red;
+}
+
+.list-info-merchant {
+    svg {
+        margin-bottom: 5px;
     }
 }
 

@@ -26,6 +26,7 @@ class SearchMerchantZipType extends AbstractType
             ],
             'label' => 'Code postal',
             'help' => 'Exemple: 75000',
+            'required' => false,
             ]);
     }
 

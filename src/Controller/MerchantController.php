@@ -45,7 +45,7 @@ class MerchantController extends AbstractController
         $userMerchantsPages = $paginator->paginate(
         $merchant, // Requête contenant les données à paginer (ici nos articles)
         $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-        9// Nombre de résultats par page
+        6// Nombre de résultats par page
         );
 
         $resultMerchant = $userMerchantsPages->getItems();
@@ -101,7 +101,7 @@ class MerchantController extends AbstractController
 
         if($userIsMerchant == true) {
 
-        $form = $this->createForm(MerchantRegister::class, $userMerchant, [
+        $form = $this->createForm(MerchantRegisterType::class, $userMerchant, [
             'method' => 'PUT'
         ]);
 

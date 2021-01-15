@@ -16,21 +16,30 @@
         {{ form_start(formMerchantZip, {'attr': {'novalidate': 'novalidate'}}) }}
             {{ form_row(formMerchantZip.zipCode) }}
             <div style="display: none; color: #f55;" id="error-message"></div>
-            <button type="submit" class="btn btn-lg btn-block btn-primary mt-3">Rechercher</button>
+            <input type="submit" class="btn btn-lg btn-block btn-primary mt-3" value="Rechercher" onclick="location.href='#merchant';">
+            </input>
         {{ form_end(formMerchantZip) }}
 
     </div>
-        
-    {% if resultMerchants|length == 0 %}
+    
+    {% if resultMerchants|length == 0 and app.request.method == 'POST'%}
         <p class="h2 mt-5 text-center"> Aucun résultat pour votre recherche</p> 
+
     {% else %}
-        <p class="h2 my-4 text-center text-muted ">Résultat de recherche :</p>
-        {% for row in resultMerchants|batch(3) %}
+        <div class="col-12 pt-2 text-center mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+            </svg>
+        </div>
+
+        <p class="h2 mb-4 text-center text-muted ">Découvrez les commerces proches</p>
+    
+        {% for row in resultMerchants|batch(6) %}
             <div class="row mb-5">
                 {% for resultMerchant in resultMerchants %}
                 
                 <div class="col-md-4 my-2">
-                    <article class="product bg-white rounded shadow">
+                    <article class="merchant bg-white rounded shadow" id="merchant">
                         <div class="mw-100  rounded-top overflow-hidden">
                             <a href="{{ path('app_pins_merchant', {id: resultMerchant.user.id}) }}">
                                 <img src="{{ (resultMerchant.imageName ? vich_uploader_asset(resultMerchant) : asset('build/images/no_image.9a55aa56.jpg')) | 

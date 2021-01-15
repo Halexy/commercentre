@@ -65,7 +65,8 @@ class MerchantRegisterType extends AbstractType
             ])  
             ->add('description', TextareaType::class)      
             ->add('additionalInformation', TextareaType::class, [
-                'label' => 'Informations supplémentaires'
+                'label' => 'Informations supplémentaires',
+                'required' => false,
             ])
             ->add('siretNumber', TextType::class, [
                 'label' => 'Numéro de siret',
@@ -73,7 +74,6 @@ class MerchantRegisterType extends AbstractType
             ])     
             ->add('category', ChoiceType::class, array(
                 'label' => 'Secteur d\'activité',
-                'help' => 'Exemple: Boulangerie',
                 'choices'  => array_combine($array, $array),
             ))
             ->add('imageFile', VichImageType::class, [

@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a href="{{ path('app_pins_create') }}" class="nav-link" >Ajouter un produit</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_pins_merchant', {id: app.user.id}) }}" class="nav-link">Ma boutique</a>
+                </li>
             {% endif %}
         {# Just user connected #}
             {% if app.user %}

@@ -6,7 +6,7 @@
     {% if pinsOfMerchant|length > 0 %}
         <h1 class="mb-4 text-center text-muted ">Découvrez les produits proposés par votre commerçant</h1>
         <!--Section: Product-->
-        {% for row in pinsOfMerchant|batch(3) %}
+        {% for row in pinsOfMerchant|batch(9) %}
             <div class="row mb-5">
                 {% for pinOfMerchant in pinsOfMerchant %}
                 <div class="col-md-4 my-2">

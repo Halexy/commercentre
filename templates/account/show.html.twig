@@ -5,30 +5,79 @@
 {% block body %}
 
     <div class="row">
+
         <div class="col-md-6 mx-auto text-center">
-            <h1 class="my-5 text-uppercase">Profil</h1>
+            <h1 class="my-4 text-uppercase">Profil</h1>
 
             <img src="{{ app.user.gravatar }}" alt="Avatar de {{ app.user.fullName }}" class="shadow rounded-circle">
 
+            <ul class="list-group-flush mt-3 p-0">
+                <li class="list-group-item">
+                    <small class="font-weight-bold">Email : </small>{{ app.user.email }}
+                </li>
+                <li class="list-group-item">
+                    <small class="font-weight-bold">Prénom et nom : </small>{{ app.user.fullName }}
+                </li>
+                <li class="list-group-item">
+                    <small class="font-weight-bold">Compte créé le : </small>{{ app.user.createdAt|date('d/m/Y') }}
+                </li>
+            </ul>
+        </div>
 
-            <p class="lead mt-5">
-                 {{ app.user.email }}
-            </p>
+        {% if app.user.isMerchant == true %}
+            <div class="col-md-6 mx-auto mb-5 text-center">
+                <h1 class="my-4 text-uppercase">Profil commerçant</h1>
 
-            <h2 class="text-uppercase">
-                {{ app.user.fullName }}
-            </h2>
+                <img src="{{ app.user.gravatar }}" alt="Avatar de {{ app.user.fullName }}" class="shadow rounded-circle">
 
-            <p class="pb-3"><small>Compte créé le {{ app.user.createdAt|date('d/m/Y') }}</small></p>
-            <p>
-                <a href="{{ path('app_account_edit') }}">Editer mon compte</a> | 
+                <ul class="list-group-flush list-info-merchant mb-2 p-0">
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Enseigne : </small>{{ app.user.userMerchant.brandName }}
+                    </li>
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Numéro de siret : </small>{{ app.user.userMerchant.siretNumber }}
+                    </li>
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Type d'activité : </small>{{ app.user.userMerchant.category }}
+                    </li>
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Adresse : </small>{{ app.user.userMerchant.addessLine }}
+                    </li>
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Ville : </small>{{ app.user.userMerchant.city }}, {{ app.user.userMerchant.zipCode }}
+                    </li>
+                    <li class="list-group-item">                    
+                    <small class="font-weight-bold">Numéro de téléphone : </small>{{ app.user.userMerchant.phoneNumber }}
+                    </li>
+                    <li class="list-group-item">
+                        <small class="font-weight-bold">Compte créé le : </small>{{ app.user.userMerchant.createdAt|date('d/m/Y') }}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+        <div class="row">
+        <div class="col-md-6 mx-auto text-center rounded shadow-lg bg-light">
+            <p class="mt-3">
+                <a href="{{ path('app_account_edit') }}" class="text-decoration-none text-secondary">
+                    Editer mon compte
+                </a> | 
                 {% if app.user.isMerchant == true %}
-                    <a href="{{ path('app_merchant_account_edit') }}">Editer mon compte commerçant</a><br />
+                    <a href="{{ path('app_merchant_account_edit') }}" class="text-decoration-none text-secondary">
+                        Editer mon compte commerçant
+                    </a><br />
+                    <a href="{{ path('app_pins_merchant', {id: app.user.id}) }}" class="text-decoration-none text-secondary">
+                        Ma boutique
+                    </a> | 
                 {% endif %}
-                <a href="{{ path('app_account_change_password') }}">Changer de mot de passe</a>
+                <a href="{{ path('app_account_change_password') }}" class="text-decoration-none text-secondary">
+                    Changer de mot de passe
+                </a>
             </p>
-
         </div>
     </div>
 
+
+    
 {% endblock %}
