@@ -28,7 +28,7 @@ class ContactType extends AbstractType
                 'label' => 'Numéro de téléphone',
                 'help' => 'Exemple : 6XXXXXXXX',
                 'attr' => [
-                    'placeholder' => '+33',
+                    'placeholder' => '612345678',
                 ]
             ])
             ->add('message', TextareaType::class, [

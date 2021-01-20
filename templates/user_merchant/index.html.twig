@@ -3,14 +3,14 @@
 {% block title %}Trouvez les commerces proche de chez vous !{% endblock %}
 
 {% block body %}
-
+<div class="row">
     <div class="col-9 mx-auto text-center">
 
         <a href="{{ path('app_home') }}">
-            <img src="{{ asset('build/images/logo_commercentre.44dd3a6b.png') }}" alt="Logo commercentre" class="w-25"/>
+            <img src="{{ asset('build/images/logo_commercentre.44dd3a6b.png') }}" alt="Logo commercentre" class="img-fluid"/>
         </a>
 
-        <h1 class="mt-3 text-uppercase text-center">Recherchez et trouvez</h1>
+        <h1 class="h2 mt-3 text-uppercase">Recherchez et trouvez</h1>
         <h4 class="mb-5">Les commerces proches !</h4> 
 
         {{ form_start(formMerchantZip, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -20,6 +20,7 @@
             </input>
         {{ form_end(formMerchantZip) }}
 
+    
     </div>
     
     {% if resultMerchants|length == 0 and app.request.method == 'POST'%}
@@ -30,12 +31,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
             </svg>
+
+            <p class="h2 mb-4 text-muted ">Découvrez les commerces proches</p>
         </div>
 
-        <p class="h2 mb-4 text-center text-muted ">Découvrez les commerces proches</p>
+        
     
         {% for row in resultMerchants|batch(6) %}
-            <div class="row mb-5">
+            <div class="row mb-5 px-1">
                 {% for resultMerchant in resultMerchants %}
                 
                 <div class="col-md-4 my-2">
@@ -63,4 +66,5 @@
         {% endfor %}
    {% endif %}
 {{ knp_pagination_render(userMerchantsPages) }}
+</div>
 {% endblock %}

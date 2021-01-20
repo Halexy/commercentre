@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
+use App\Entity\User;
 use App\Form\PinType;
 use App\Entity\Contact;
 use App\Form\ContactType;
-use App\Notification\ContactNotification;
+use App\Entity\UserMerchant;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Notification\ContactNotification;
+use App\Repository\UserMerchantRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +33,7 @@ class PinsController extends AbstractController
      * @Route("/pins/merchant", name="app_pins_merchant", methods={"GET", "POST"})
      */
     public function index(PinRepository $pinRepository, PaginatorInterface $paginator,
-     Request $request, ContactNotification $contactNotification): Response
+     Request $request, ContactNotification $contactNotification, UserRepository $user): Response
     {        
         $userMerchantsId = $_GET['id'];
 
@@ -42,7 +46,7 @@ class PinsController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid())
             {
-                $contactNotification->notify($contact);
+                $contactNotification->notify($contact, $user);
 
                 $this->addFlash('success', 'Envoyé avec succès');
 
@@ -69,7 +73,7 @@ class PinsController extends AbstractController
         );
 
         $pinsOfMerchant = $pinsUserMerchantsPages->getItems();
-        
+
         return $this->render('pins/pins_merchant.html.twig', [
             'form' => $form->createView(),
             'userMerchantsId' => $userMerchantsId,
@@ -111,7 +115,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/{id<[0-9]+>}", name="app_pins_show")
      */
-    public function show(Pin $pin, Request $request, ContactNotification $contactNotification): Response
+    public function show(Pin $pin, Request $request, ContactNotification $contactNotification, UserRepository $user): Response
     {
         if($this->getUser())
         {
@@ -122,28 +126,9 @@ class PinsController extends AbstractController
             $userId = 0;
         }
 
-        $contact = new Contact();
-
-        $form = $this->createForm(ContactType::class, $contact);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $contactNotification->notify($contact);
-
-            $this->addFlash('success', 'Envoyé avec succès');
-
-            return $this->redirectToRoute('app_home');
-        }
-        elseif($form->isSubmitted())
-        {
-            $this->addFlash('error', 'Erreur dans le formulaire');
-        }
-
         return $this->render('pins/show.html.twig', [
             'pin' => $pin,
             'userId' => $userId,
-            'form' => $form->createView(),
         ]);
     }
 

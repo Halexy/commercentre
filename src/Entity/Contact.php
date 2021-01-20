@@ -51,6 +51,18 @@ class Contact
      */
     private $property;
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): Contact
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -83,18 +95,6 @@ class Contact
     public function setPhoneNumber(int $phoneNumber): Contact
     {
         $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): Contact
-    {
-        $this->email = $email;
 
         return $this;
     }

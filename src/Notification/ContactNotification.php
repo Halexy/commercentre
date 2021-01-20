@@ -2,10 +2,15 @@
 
 namespace App\Notification;
 
+use App\Entity\Pin;
+use App\Entity\User;
 use Twig\Environment;
 use App\Entity\Contact;
+use App\Entity\UserMerchant;
+use App\Repository\PinRepository;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Mailer;
+use App\Repository\UserMerchantRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Mailer\MailerInterface;
 
 class ContactNotification {
@@ -19,15 +24,24 @@ class ContactNotification {
         $this->renderer = $renderer;
     }
 
-    public function notify(Contact $contact) {
+    public function notify(Contact $contact, UserRepository $user) {
+
+        $userMerchantsId = $_GET['id'];
+
+        $pinsUserMerchants = $user->findOneBy([
+            'id' => $userMerchantsId,
+        ]);
+
+        $emailMerchant = $pinsUserMerchants->getEmail();
+        
         $message = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
+            ->from('commercentre.ne.pas.repondre@gmail.com')
+            ->to($emailMerchant)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             ->replyTo($contact->getEmail())
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
+            ->subject('Un client vous a contacté !')
             ->html($this->renderer->render('emails/registration/contact.html.twig', compact('contact')));
 
             $this->mailer->send($message);
