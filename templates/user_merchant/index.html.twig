@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %}Trouvez les commerces proche de chez vous !{% endblock %}
+{% block title %}Trouvez les commerces proches de chez vous !{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -32,16 +32,16 @@
             <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
             </svg>
 
-            <p class="h2 mb-4 text-muted ">Découvrez les commerces proches</p>
+            <p class="h2 mb-4 text-center text-muted ">Découvrez les commerces</p>
         </div>
 
         
     
         {% for row in resultMerchants|batch(6) %}
-            <div class="row mb-5 px-1">
+            <div class="row mx-auto">
                 {% for resultMerchant in resultMerchants %}
                 
-                <div class="col-md-4 my-2">
+                <div class="mx-auto mt-2 mb-5 px-1">
                     <article class="merchant bg-white rounded shadow" id="merchant">
                         <div class="mw-100  rounded-top overflow-hidden">
                             <a href="{{ path('app_pins_merchant', {id: resultMerchant.user.id}) }}">
@@ -49,7 +49,7 @@
                                 imagine_filter('squared_thumbnail_medium') }}" alt="{{ resultMerchant.brandName }}" class="w-100"/>
                             </a>
                         </div>
-                        <div class="p-3">
+                        <div class="p-2">
                             <a href="{{ path('app_pins_merchant', {id: resultMerchant.user.id}) }}"
                                 class="text-muted text-decoration-none text-secondary">
                                 <h2 class="h5 pt-3">{{ resultMerchant.brandName }}</h2>

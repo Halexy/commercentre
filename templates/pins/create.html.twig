@@ -9,7 +9,7 @@
 
 
             {% if app.user and app.user.isMerchant == 1 %}
-                <h1>Créer un produit</h1>
+                <h1 class="text-center">Créer un produit</h1>
                 {{ include('pins/_form.html.twig', {'submitButtonText': 'Créer'}) }}
             {% endif %}
 
