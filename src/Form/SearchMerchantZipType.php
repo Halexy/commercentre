@@ -25,7 +25,7 @@ class SearchMerchantZipType extends AbstractType
                 'class' => 'zipCode',
             ],
             'label' => 'Code postal',
-            'help' => 'Exemple: 75000',
+            'help' => 'Exemple: 87000',
             'required' => false,
             ]);
     }

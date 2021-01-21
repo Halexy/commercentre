@@ -44,22 +44,23 @@ class MerchantRegisterType extends AbstractType
             ])
             ->add('zipCode', TextType::class, [
                 'label' => 'Code postal',
-                'help' => 'Exemple: 75016',
+                'help' => 'Exemple: 87000',
                 'attr' => [
                     'class' => 'zipCode',
                 ]
             ])
             ->add('city', ChoiceType::class, [
                 'label' => 'Ville',
+                'help' => 'Entrez un code postal pour avoir les villes',
                 'attr' => [
                     'class' => 'city',
                 ]
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',
-                'help' => 'Exemple : 6XXXXXXXX',
+                'help' => 'Ne pas mettre le 0',
                 'attr' => [
-                    'placeholder' => '+33',
+                    'placeholder' => '612345678',
                 ]
                 
             ])  

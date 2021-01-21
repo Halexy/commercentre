@@ -32,14 +32,14 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('city', ChoiceType::class, [
                 'label' => 'Ville',   
-                'empty_data' => '',
+                'help' => 'Entrez un code postal pour avoir les villes',
                 'attr' => [
                     'class' => 'city',
                 ]
             ])
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
-                'help' => 'Exemple: 75000',
+                'help' => 'Exemple: 87000',
                 'attr' => [
                     'class' => 'zipCode',
                 ]
