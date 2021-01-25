@@ -13,27 +13,30 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MerchantRegisterType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $array = array(
-            "Commerce de détail",
             "Agroalimentaire", 
-            "Restauration rapide",
-            "Loisirs, tourisme, culture",
-            "Informatique, internet",
-            "Services aux entreprises",
-            "Habitation",
-            "Textile, habillement",
-            "Horlogerie, bijouterie",
-            "Formation - administrations",
-            "Énergie, environnement",
+            "Chimie, plastique, santé", 
+            "Commerce de détail",
             "Construction, bâtiment, bois",
+            "Énergie, environnement",
+            "Formation - administrations",
+            "Habitation",
+            "Horlogerie, bijouterie",
+            "Informatique, internet",
+            "Loisirs, tourisme, culture",
             "Matériel électrique, électronique, optique",
             "Métallurgie, mécanique",
-            "Chimie, plastique, santé", 
             "Papier, impression",
+            "Restauration rapide",            
+            "Services aux entreprises",
+            "Textile, habillement",
             "Transports et logistique",
         );
+        
         $builder
             ->add('brandName', TextType::class, [
                 'label' => 'Nom d\'entreprise'
@@ -54,7 +57,8 @@ class MerchantRegisterType extends AbstractType
                 'help' => 'Entrez un code postal pour avoir les villes',
                 'attr' => [
                     'class' => 'city',
-                ]
+                ],
+                
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',

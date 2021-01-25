@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
-use App\Entity\User;
 use App\Form\PinType;
 use App\Entity\Contact;
 use App\Form\ContactType;
-use App\Entity\UserMerchant;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Notification\ContactNotification;
-use App\Repository\UserMerchantRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,9 +98,11 @@ class PinsController extends AbstractController
             $this->em->persist($pin);
             $this->em->flush();
 
+            $userMerchantsId = $pin->getUser()->getId();
+
             $this->addFlash('success', 'Article ajouté avec succès');
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_pins_merchant', ['id' => $userMerchantsId]);
         }
 
         return $this->render('pins/create.html.twig', [
@@ -115,7 +114,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/{id<[0-9]+>}", name="app_pins_show")
      */
-    public function show(Pin $pin, Request $request, ContactNotification $contactNotification, UserRepository $user): Response
+    public function show(Pin $pin): Response
     {
         if($this->getUser())
         {
@@ -148,11 +147,13 @@ class PinsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() && $pinUserId == $userId)
         {
+            $userMerchantsId = $pin->getUser()->getId();
+
             $this->em->flush();
 
             $this->addFlash('success', 'Article modifié avec succès');
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_pins_merchant', ['id' => $userMerchantsId]);
         }
 
         if ($form->isSubmitted() && $form->isValid() && $pinUserId != $userId)
@@ -181,6 +182,8 @@ class PinsController extends AbstractController
         {
             $this->em->remove($pin);
             $this->em->flush();
+            
+            $userMerchantsId = $pin->getUser()->getId();
 
             $this->addFlash('success', 'Article supprimé avec succès');
         }
@@ -190,6 +193,6 @@ class PinsController extends AbstractController
             $this->addFlash('error', 'Vous ne pouvez pas modifier un produit qui ne vous appartient pas');
         }
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_pins_merchant', ['id' => $userMerchantsId]);
     }
 }

@@ -27,7 +27,8 @@ const format = '&format=json';
 
 let zipcode = $('.zipCode'); let city = $('.city'); let errorMessage = $('#error-message'); 
 // method to retrieve French city and zipCode
-    $(zipcode).on('blur', function(){
+
+        $(zipcode).on('blur', function(){
         let code = $(this).val();
         //console.log(code);
         let url = apiUrl+code+format;
@@ -40,7 +41,7 @@ let zipcode = $('.zipCode'); let city = $('.city'); let errorMessage = $('#error
                 $(errorMessage).text('').hide();
                 $.each(results, function(key, value){
                     //console.log(value);
-                    console.log(value.nom);
+                    console.log('coucouuuuu');
                     $(city).append('<option value="'+value.nom+'">'+value.nom+'</option>');
                 });
             }
@@ -58,3 +59,37 @@ let zipcode = $('.zipCode'); let city = $('.city'); let errorMessage = $('#error
             $(city).find('option').remove();
         });
     });
+
+
+if($('.zipCode').length > 0) {
+    console.log('hole');
+    let code = $('.zipCode').val();
+        //console.log(code);
+        let url = apiUrl+code+format;
+        //console.log(url);
+
+        fetch(url, {method: 'get'}).then(response => response.json()).then(results => {
+            //console.log(results);
+            $(city).find('option').remove();
+            if(results.length){
+                $(errorMessage).text('').hide();
+                $.each(results, function(key, value){
+                    //console.log(value);
+                    console.log('coucouuuuu');
+                    $(city).append('<option value="'+value.nom+'">'+value.nom+'</option>');
+                });
+            }
+            else{
+                if($(zipcode).val()){
+                    console.log('Erreur de code postal.');
+                    $(errorMessage).text('Aucune commmune avec ce code postal.').show();
+                }
+                else{
+                    $(errorMessage).text('').hide();
+                }
+            }
+        }).catch(err => {
+            console.log(err);
+            $(city).find('option').remove();
+        });
+}

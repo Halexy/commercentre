@@ -60,37 +60,39 @@ class MerchantController extends AbstractController
     /**
      * @Route("merchant/register", name="app_merchant_register")
      */
-    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $userMerchant = new UserMerchant();
+        if($this->getUser()->getIsMerchant() == false){
+            $userMerchant = new UserMerchant();
 
-            $form = $this->createForm(MerchantRegisterType::class, $userMerchant);
+                $form = $this->createForm(MerchantRegisterType::class, $userMerchant);
 
-            $form->handleRequest($request);
+                $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->getUser()->setIsMerchant(true);
-                $userMerchant->setUser($this->getUser());
-                $em->persist($userMerchant);
-                $em->flush();
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $this->getUser()->setIsMerchant(true);
+                    $userMerchant->setUser($this->getUser());
+                    $em->persist($userMerchant);
+                    $em->flush();
 
-                $this->addFlash('success', 'Votre compte commerçant a bien été créé.');
+                    $this->addFlash('success', 'Votre compte commerçant a bien été créé.');
 
-                return $this->redirectToRoute('app_home');
-            };
+                    return $this->redirectToRoute('app_home');
+                };
 
-            return $this->render('user_merchant/merchant_register.html.twig', [
-                'formMerchant' => $form->createView(),
-            ]);
+                return $this->render('user_merchant/merchant_register.html.twig', [
+                    'formMerchant' => $form->createView(),
+                ]);
+        }
 
-            // else {
-            //     $this->addFlash('error', 'Vous devez vous créer un compte avant d\'accéder au);
+        else {
+            $this->addFlash('error', 'Vous avez déjà un compte commerçant');
 
-            //     return $this->redirectToRoute('app_home');
-            // }
+            return $this->redirectToRoute('app_home');
+        }
     }
 
-        /**
+    /**
      * @Route("merchant/account/edit", name="app_merchant_account_edit", methods={"GET", "PUT"})
      */
     public function edit(Request $request, EntityManagerInterface $em): Response

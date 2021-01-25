@@ -52,33 +52,35 @@
         <hr class="my-5">
 
       <!--Section: Form contact-->
-    <div class="row">
-    <section class="col-md-6 mx-auto" id="contact">
-        <h3 class="col-12 text-center text-uppercase">Contactez votre commerçant</h3>
-            <div class="mt-4 ml-3">
-                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} )}}
-                    <div class="row">             
-                        <div class="col-md-6">
-                            {{ form_row(form.firstName) }}
+    {% if userMerchantsId != userId %}
+        <div class="row">
+        <section class="col-md-6 mx-auto" id="contact">
+            <h3 class="col-12 text-center text-uppercase">Contactez votre commerçant</h3>
+                <div class="mt-4 ml-3">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} )}}
+                        <div class="row">             
+                            <div class="col-md-6">
+                                {{ form_row(form.firstName) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.lastName) }}
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            {{ form_row(form.lastName) }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.phoneNumber) }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(form.email) }}
-                        </div>
-                        <div class="col-md-6">
-                            {{ form_row(form.phoneNumber) }}
-                        </div>
-                    </div>
-                        {{ form_row(form.message) }}
+                            {{ form_row(form.message) }}
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Envoyer</button>
-                {{ form_end(form) }}
-            </div> 
-    </section>
-    </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Envoyer</button>
+                    {{ form_end(form) }}
+                </div> 
+        </section>
+        </div>
+    {% endif %}
 
 {% endblock %}

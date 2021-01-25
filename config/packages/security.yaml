@@ -37,6 +37,7 @@ security:
         - { path: '^/pins/create', roles: ROLE_USER }
         - { path: '^/pins/\d+/edit', roles: ROLE_USER }
         - { path: '^/merchant/register', roles: ROLE_USER }
+        - { path: '^/merchant/account/edit', roles: ROLE_USER }
         
 
         
