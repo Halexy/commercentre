@@ -17,7 +17,6 @@
             {{ form_row(formMerchantZip.zipCode) }}
             <div style="display: none; color: #f55;" id="error-message"></div>
             <input type="submit" class="btn btn-lg btn-block btn-primary mt-3" value="Rechercher" onclick="location.href='#merchant';">
-            </input>
         {{ form_end(formMerchantZip) }}
 
     {% if resultMerchants|length == 0 and app.request.method == 'POST'%}
